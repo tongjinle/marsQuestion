@@ -7,14 +7,12 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   mode: 'history',
-  routes: [
-    {
-      path: '/',
-      components: {
-        default: Main
-      }
+  routes: [{
+    path: '/',
+    components: {
+      default: Main
     }
-  ]
+  }]
 });
 
 export default new Vue({
