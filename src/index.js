@@ -20,3 +20,4 @@ export default new Vue({
   router,
   render: h => h('router-view')
 });
+
