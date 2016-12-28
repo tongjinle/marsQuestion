@@ -15,9 +15,8 @@ const router = new VueRouter({
   }]
 });
 
-export default new Vue({
+export  default new Vue({
   el: '#root',
   router,
   render: h => h('router-view')
 });
-
