@@ -3,7 +3,7 @@
     <header-component></header-component>
     <main>
       <leftnav-component></leftnav-component>
-      <router-view></router-view> 
+      <content-component></content-component>
     </main>
     <footer-component></footer-component>
   </div>
@@ -13,13 +13,15 @@
 import Header from './Header.vue';
 import LeftNav from './LeftNav.vue';
 import Footer from './Footer.vue';
+import Content from './Content.vue';
 
 export default {
-  name: 'Main',
+  name: 'DataAnalysis',
   components: {
     'header-component': Header,
     'leftnav-component':LeftNav,
-    'footer-component': Footer
+    'content-component':Content,
+    'footer-component': Footer,
   }
 };
 
