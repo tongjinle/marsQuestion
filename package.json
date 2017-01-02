@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "echarts": "^3.3.2",
     "element-ui": "^1.0.9",
     "vue": "^2.0.1",
     "vue-resource": "^0.9.3",

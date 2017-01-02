@@ -1,19 +1,27 @@
 import Vue from 'vue';
 import Main from './app/Main.vue';
-import VueRouter from 'vue-router';
-import Element from 'element-ui';
-import 'element-ui/lib/theme-default/index.css';
-import './app/question.less';
+import DataAnalysis from './app/DataAnalysis.vue';
+
+import ElementUI from 'element-ui';
+
+Vue.use(ElementUI);
+
+import './LeftNav.less';
 import './index.less';
-import './app/Title.less';
+import './content.less';
+import 'element-ui/lib/theme-default/index.css';
+import VueRouter from 'vue-router';
 Vue.use(VueRouter);
-Vue.use(Element);
+
 const router = new VueRouter({
   mode: 'history',
-  routes: [{path: '/',components: {default: Main}}]
+  routes: [
+  {path: '/', components: {default: Main}},
+  {path: '/DataAnalysis', components: {default: DataAnalysis}}
+  ]
 });
 
-export  default new Vue({
+export default new Vue({
   el: '#root',
   router,
   render: h => h('router-view')
