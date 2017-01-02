@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import Header from './Header.vue';
-import LeftNav from './LeftNav.vue';
-import Footer from './Footer.vue';
-import Content from './Content.vue';
+import Header from './header.vue';
+import LeftNav from './leftNav.vue';
+import Footer from './footer.vue';
+import Content from './content.vue';
 
 export default {
   name: 'DataAnalysis',

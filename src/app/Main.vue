@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import Header from './Header.vue';
-import LeftNav from './LeftNav.vue';
-import Footer from './Footer.vue';
+import Header from './header.vue';
+import LeftNav from './leftNav.vue';
+import Footer from './footer.vue';
 
 export default {
   name: 'Main',

@@ -41,7 +41,9 @@
             </div>
           </el-col>
         </el-row>
-        <div id="fig"></div>
+        <el-card class="box-card">
+          <div id="fig"></div>
+        </el-card>
       </el-col>
       <el-col :span="8" class="right_outer"> 
         <div id="info">
