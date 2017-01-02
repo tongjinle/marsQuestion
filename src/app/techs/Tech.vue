@@ -1,4 +1,4 @@
-<template>
+<!--<template>
   <div class="tech">
     <img class="tech-logo" v-bind:src="tech.logo"/>
     <h3 class="tech-h3">
@@ -14,4 +14,4 @@ export default {
   name: 'Tech',
   props: ['tech']
 };
-</script>
+</script>-->
