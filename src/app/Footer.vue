@@ -1,9 +1,8 @@
 <template>
-  <footer class="footer">
-    Build with ♥ by the&nbsp;
-    <a href="https://github.com/orgs/FountainJS/people">
-      FountainJS team
-    </a>
+  <footer class="footer" >
+   <p class="p1">Copyright © 2014 - 2016 me.hxsd.local</p>
+   <p class="p2"><a href="javascript: scroll(0, 0)">TOP</a></p>
+  
   </footer>
 </template>
 
@@ -11,4 +10,8 @@
 export default {
   name: 'Footer'
 };
+
+
+
+  
 </script>

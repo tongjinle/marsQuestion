@@ -1,4 +1,4 @@
-<template>
+<!--<template>
   <div class="techs-container">
     <h2 class="techs-h2">
       Cooked with all these awesome technologies:
@@ -33,4 +33,4 @@ export default {
     tech
   }
 };
-</script>
+</script>-->

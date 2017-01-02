@@ -15,12 +15,13 @@ module.exports = {
           'json-loader'
         ]
       },
-      {
-        test: /.js$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
-        enforce: 'pre'
-      },
+      // {
+      //   test: /.js$/,
+      //   exclude: /node_modules/,
+      //   loader: 'eslint-loader',
+      //   enforce: 'pre'
+      // },
+      { test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/, loader: "file-loader" },
       {
         test: /\.(css|less)$/,
         loaders: [
@@ -29,6 +30,10 @@ module.exports = {
           'less-loader',
           'postcss-loader'
         ]
+      },
+      {
+        test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/,
+        loader: "file-loader"
       },
       {
         test: /\.js$/,

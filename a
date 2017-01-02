@@ -1,0 +1,31 @@
+50 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 151.101.72.162:443
+51 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 151.101.72.162:443
+52 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 151.101.72.162:443
+59 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 151.101.72.162:443
+60 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 151.101.72.162:443
+61 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 151.101.72.162:443
+68 silly fetchPackageMetaData  error for vue-resource@^0.9.3 { Error: connect ECONNREFUSED 151.101.72.162:443
+69 silly fetchPackageMetaData  error for vue@^2.0.1 { Error: connect ECONNREFUSED 151.101.72.162:443
+70 silly fetchPackageMetaData  error for vue-router@^2.0.0 { Error: connect ECONNREFUSED 151.101.72.162:443
+77 error Windows_NT 6.1.7601
+78 error argv "D:\\software_zlv\\Node\\node.exe" "D:\\software_zlv\\Node\\node_modules\\npm\\bin\\npm-cli.js" "i"
+79 error node v6.9.1
+80 error npm  v3.10.8
+81 error code ECONNREFUSED
+82 error errno ECONNREFUSED
+83 error syscall connect
+84 error Error: connect ECONNREFUSED 151.101.72.162:443
+84 error     at Object.exports._errnoException (util.js:1026:11)
+84 error     at exports._exceptionWithHostPort (util.js:1049:20)
+84 error     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1085:14)
+84 error  { Error: connect ECONNREFUSED 151.101.72.162:443
+84 error     at Object.exports._errnoException (util.js:1026:11)
+84 error     at exports._exceptionWithHostPort (util.js:1049:20)
+84 error     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1085:14)
+84 error   code: 'ECONNREFUSED',
+84 error   errno: 'ECONNREFUSED',
+84 error   syscall: 'connect',
+84 error   address: '151.101.72.162',
+84 error   port: 443 }
+85 error If you are behind a proxy, please make sure that the
+85 error 'proxy' config is set properly.  See: 'npm help config'
