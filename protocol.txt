@@ -1,0 +1,257 @@
+1 登录
+req:
+url:'/login'
+type:post
+params:{
+    username:string,
+    password:string
+}
+
+res:
+{   
+    // 是否登录成功
+    flag:boolean,
+    // 特征码
+    token:string
+}
+
+===================分割线======================
+
+2 修改密码
+req:
+url:'/editPwd'
+type:post
+params:{
+    token:string,
+    // 旧密码
+    lastPassword:string,
+    // 新密码
+    currPassword:string
+}
+
+res:
+{
+    flag:boolean
+}
+
+===================分割线======================
+3 统计
+req:
+url:'/analysis/:shortCode?'
+** 如果传了shortCode,则不用传送params了
+type:get
+params:{
+    // 时间段
+    timeRange:{
+        begin:number,
+        end:number
+    },
+    // 题目难度
+    diffRange:{
+        begin:number,
+        end:number
+    },
+    // 类型 
+    // 0表示学生,1表示班级
+    type:number,
+    // 分析项
+    // 学生传usernmae列表
+    // 班级传class列表
+    keyList:string[]
+}
+
+res:
+{
+    // 是否成功统计
+    flag:boolean,
+    data:{
+        key:string,
+        // 针对key的统计分析
+        countList:{
+            // 难度
+            diff:number,
+            // 正确答题数量
+            right:number,
+            // 答题总数
+            total:number
+        }[]
+    }[]
+}
+
+===================分割线======================
+
+
+4 获取班级列表
+req:
+url:'/getClassList'
+type:get
+params:null
+
+res:
+{
+    classList:string[]
+}
+===================分割线======================
+
+
+5 获取学生列表(通过班级)
+req:
+url:'/getStudListByClass'
+type:'get'
+params:{
+    class:string
+}
+
+res
+{
+    usernameList:string[]
+}
+
+===================分割线======================
+
+6 获取学生列表(通过模糊查找)
+req:
+url:'/getStudListByName'
+type:'get'
+params:{
+    username:string
+}
+
+res
+{
+    usernameList:string[]
+}
+
+===================分割线======================
+
+7 请求生成url短码
+req:
+url:'/genShortCode'
+type:get
+params:同"统计"的params
+
+res:
+{
+    shortCode:string
+}
+
+
+===================分割线======================
+
+9 学生自我统计报表
+req:
+url:'/analysisSelf'
+type:get
+params:{
+    token:string
+}
+
+res:{
+    flag:boolean,
+    countList:{
+        // 难度
+        diff:number,
+        // 正确答题数量
+        right:number,
+        // 答题总数
+        total:number
+    }[],
+    // 班级排名
+    classIndex:number,
+    // 班级人数
+    classCount:number,
+    // 火星排名
+    marsIndex:number,
+    // 火星人数
+    marsCount:number
+}
+
+===================分割线======================
+10 获取题目列表
+req:
+url:'/getQuesList'
+type:get
+params:{
+    token:string,
+    diff:number,
+    isFilterPass:boolean
+}
+
+res:
+{
+    data:{
+        name:string,
+        diff:number,
+        rightCount:number,
+        totalCount:number,
+        isPass:boolean
+    }[]
+}
+
+===================分割线======================
+
+11 获取题目细节
+req:
+url:'/getQuesDetail'
+type:get
+params:{
+    name:string
+}
+
+res:
+{
+    name:string,
+    // 描述
+    desc:string,
+    // 输入输出示例
+    demoInput:string,
+    demoOutput:string,
+    // 代码
+    code:string,
+    isPass:boolean,
+    // 
+    right:number,
+    total:number,
+    // 运行速度
+    speed:number
+}
+
+===================分割线======================
+
+12 提交代码
+req:
+url:'/commitCode'
+type:post
+params:{
+    token:string,
+    name:string,
+    code:string
+}
+
+res:{
+    isPass:boolean,
+    speed:number
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
