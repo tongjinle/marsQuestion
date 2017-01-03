@@ -64,7 +64,7 @@
               </el-option>
             </el-select>    
           </el-col>
-          <el-col :span="20" v-if="type_flag">
+          <el-col :span="20" v-show="type_flag">
             <el-row :gutter="20">
               <el-col :span="8">
                 <el-select v-model="selected_class" 
@@ -74,16 +74,30 @@
                   </el-option>
                 </el-select>      
               </el-col>
-              <el-col :span="14">
+              <el-col :span="10">
+                <el-tag
+                  v-for="tag in tags"
+                  :closable="true"
+                  :type="tag.type"
+                  :key="tag"
+                  :close-transition="false"
+                  @close="handleClose(tag)"
+                >
+                {{tag.name}}
+                </el-tag>
+              </el-col> 
+              <el-col :span="6">
                 <el-button type="primary">查询班级</el-button>
               </el-col>  
             </el-row>    
           </el-col>
-          <el-col :span="20" v-else>
+          <el-col :span="20" v-show="selected_type==''?false:!type_flag">
             <el-row :gutter="20">
               <el-col :span="5">
                 <el-select v-model="selected_class" 
-                placeholder="请选择班级">
+                placeholder="请选择班级"
+                @change="getStudentFromThisClass(selected_class)"
+                >
                   <el-option v-for="item in which_class" :label="item" 
                   :value="item">
                   </el-option>
@@ -97,7 +111,7 @@
                   </el-option>
                 </el-select>
               </el-col>
-              <el-col :span="14">
+              <el-col :span="10">
                 <el-tag
                   v-for="tag in tags"
                   :closable="true"
@@ -108,7 +122,10 @@
                 >
                 {{tag.name}}
                 </el-tag>
-              </el-col>  
+              </el-col> 
+              <el-col :span="4">
+                <el-button type="primary">查询学生</el-button>  
+              </el-col> 
             </el-row>    
           </el-col>
         </el-row>
@@ -166,10 +183,12 @@ export default {
         "学生"
       ],
       which_class:null,
+      which_student:null,
       diff_from:'',
       diff_to:'',
       selected_class:'',
       selected_type:'',
+      selected_student:'',
       start_year:'',
       end_year:'',
       tags: [
@@ -191,6 +210,23 @@ export default {
     }
   },
   methods: {
+    getStudentFromThisClass(selected_class){
+      var isMock=true;
+      var url=null;
+      if(isMock){
+        url='./app/studentName.json';
+      }else{
+        url='/getStudListByClass';
+      };
+      console.log(3);
+      this.$http.get(
+        url
+      ).then(function(res){
+        console.log(res.data);
+        // this.$set(that.classList,res.data);
+        this.which_student=res.data;
+      });  
+    },
     select_which_type(){
       if(this.selected_type=="班级"){
         this.type_flag=true;
@@ -217,7 +253,6 @@ export default {
     this.$http.get(
       urls
     ).then(function(res){
-      console.log(res.data);
       // this.$set(that.classList,res.data);
       that.which_class=res.data;
     });
