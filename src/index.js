@@ -1,17 +1,18 @@
 import Vue from 'vue';
 import Main from './app/Main.vue';
 import DataAnalysis from './app/DataAnalysis.vue';
-
 import ElementUI from 'element-ui';
 
 Vue.use(ElementUI);
 
-import './LeftNav.less';
+import './app/LeftNav.less';
 import './index.less';
-import './content.less';
+import './app/content.less';
 import 'element-ui/lib/theme-default/index.css';
 import VueRouter from 'vue-router';
+import VueResource from 'vue-resource';
 Vue.use(VueRouter);
+Vue.use(VueResource);
 
 const router = new VueRouter({
   mode: 'history',

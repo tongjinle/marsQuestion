@@ -6,7 +6,7 @@
       </a>
     </p>
     <p class="header-date">
-      <button v-on:click="tryy">阿拉拉拉拉</button>
+      <button>阿拉拉拉拉</button>
       <!-- Generated with FountainJS v0.6.0 on Wed Aug 10 2016 10:13:26 GMT+0200 (CEST) -->
     </p>
   </header>
