@@ -89,7 +89,11 @@
                 </el-tag>
               </el-col> 
               <el-col :span="6">
-                <el-button type="primary" @click="search_class_info">查询班级</el-button>
+                <el-button type="primary" 
+                @click="search_class_info"
+                :disabled="!if_class_button"
+                >
+                查询班级</el-button>
               </el-col>  
             </el-row>    
           </el-col>
@@ -127,7 +131,11 @@
                 </el-tag>
               </el-col> 
               <el-col :span="4">
-                <el-button type="primary" @click="search_student_info">查询学生</el-button>  
+                <el-button type="primary" 
+                @click="search_student_info"
+                :disabled="!if_student_button"
+                >
+                查询学生</el-button>  
               </el-col> 
             </el-row>    
           </el-col>
@@ -235,7 +243,7 @@ export default {
       selected_student:'',        //student下拉菜单 当前值
       start_year:'',              //时间起点
       end_year:'',                //时间终点
-      color:["","gray","primary","success","warning","danger","Dark White","tomato"],
+      color:["primary","success","warning","danger","gray","blue"],
       profile:{                   
         imgsrc:"http://img.zcool.cn/community/01e50a55bee3b66ac7253f361e874b.jpg",
         name:"XXX",
@@ -258,7 +266,10 @@ export default {
       },
       analysisData:null,             //最终返回的分析数据
       self_analysis:[],
-      self_analysis_conclusion:[]
+      self_analysis_conclusion:[],
+      if_class_button:
+      this.start_year!='' && this.end_year!='' && this.selected_type!='' && this.selected_class!='' && this.diff_from!='' && this.diff_to!='',
+      if_student_button:this.start_year!='' && this.end_year!='' && this.selected_type!='' && this.selected_class!='' && this.diff_from!='' && this.diff_to!='' && this.selected_student!=''
     }
   },
   methods: {
@@ -271,7 +282,6 @@ export default {
       }else{
         url='/getStudListByClass';
       };
-      console.log(3);
       this.$http.get(
         url
       ).then(function(res){
@@ -281,6 +291,8 @@ export default {
     },
     //选择以何种方式查询分析数据----by class /  by name
     select_which_type(){
+      this.class_tags.length=0;
+      this.student_tags.length=0;
       if(this.selected_type=="班级"){
         this.type_flag=true;
       }else{
@@ -296,9 +308,10 @@ export default {
     },
     //构建待查询的class数组
     add_class_tag(selected_class){
+       console.log(this.if_class_button);
       var new_tag={
         name:selected_class,
-        type:this.color[Math.floor(Math.random()*8)]
+        type:this.color[Math.floor(Math.random()*6)]
       };
       for(var i=0;i<this.class_tags.length;i++){
         if(this.class_tags[i].name==selected_class){
@@ -311,7 +324,7 @@ export default {
     add_student_tag(selected_student){
       var new_tag={
         name:selected_student,
-        type:this.color[Math.floor(Math.random()*8)]
+        type:this.color[Math.floor(Math.random()*6)]
       }
       for(var i=0;i<this.student_tags.length;i++){
         if(this.student_tags[i].name==selected_student){
@@ -323,32 +336,46 @@ export default {
     //------------发送(短码 暂未做)请求,发送params数据包----------------------
     //  --1 by class
     search_class_info(){
+      var isMock=true;
+      var url=null;
+      if(isMock){
+        url='./app/class.json';
+      }else{
+        url='/analysis';
+      };
       //--构建params包
         var _this=this;
         this.params.type=1;
         this.keyList=this.class_tags;
       //--
       this.$http.get(
-        '/analysis',
+        url,
         _this.params
       ).then(function(res){
-        // this.$set(that.classList,res.data);
-        this.analysisData=res.data;
+        // this.analysisData=res.data;
+        alert("get class!")
       }); 
     },
     //  --2 by name
     search_student_info(){
+      var isMock=true;
+      var url=null;
+      if(isMock){
+        url='./app/student.json';
+      }else{
+        url='/analysis';
+      };
       //--构建params包
         var _this=this;
         this.params.type=0;
         this.keyList=this.student_tags;
       //--
       this.$http.get(
-        '/analysis',
+        url,
         _this.params
       ).then(function(res){
-        // this.$set(that.classList,res.data);
-        this.analysisData=res.data;
+        // this.analysisData=res.data;
+        alert("get student!")
       }); 
     },
     //------------------for self analysis strip list color --------------
