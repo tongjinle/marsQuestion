@@ -138,22 +138,61 @@
       </el-col>
       <el-col :span="7" class="right_outer"> 
         <div id="info">
-          <el-row>
-            <el-col :span="24" class="info_item head_pic"><img src="http://img.zcool.cn/community/01e50a55bee3b66ac7253f361e874b.jpg"></el-col>
+          <el-row :gutter="20">
+            <el-col :span="20" class="info_item head_pic"><img src="http://img.zcool.cn/community/01e50a55bee3b66ac7253f361e874b.jpg"></el-col>
           </el-row>  
           <el-row>
-            <el-col :span="24" class="info_item"><span>用户名　：</span>  {{profile.name}}</el-col>
+            <el-col :offset="3" :span="15" class="info_item"><span>用户名　：</span>  {{profile.name}}</el-col>
           </el-row>  
           <el-row>
-            <el-col :span="24" class="info_item"><span>班级　　：</span>  {{profile.className}}</el-col>
+            <el-col :offset="3" :span="15" class="info_item"><span>班级　　：</span>  {{profile.className}}</el-col>
           </el-row>  
           <el-row>
-            <el-col :span="24" class="info_item"><span>平均得分：</span>  {{profile.evaluate}}</el-col>
+            <el-col :offset="3" :span="15" class="info_item"><span>平均得分：</span>  {{profile.evaluate}}</el-col>
           </el-row>  
-          <el-row>
-            <el-col :span="24" class="info_item"><span>综合评价：</span>  {{profile.comment}}</el-col>
-          </el-row> 
         </div>   
+        <el-card class="card-box self_analysis">
+          <div slot="header" class="clearfix">
+            <strong style="line-height: 25px;">个人成绩统计</span>
+          </div>
+          <el-row :gutter="20">
+            <el-col :offset="1" :span="10" class="con_list">
+              班级排名: {{self_analysis_conclusion[0]}}  
+            </el-col>
+            <el-col :offset="1" :span="10" class="con_list">
+              班级人数: {{self_analysis_conclusion[1]}}  
+            </el-col>
+            <el-col :span="2"></el-col>
+          </el-row>
+          <el-row :gutter="20" class="row_top">
+            <el-col :offset="1" :span="10" class="con_list">
+              年级排名: {{self_analysis_conclusion[2]}}  
+            </el-col> 
+            <el-col :offset="1" :span="10" class="con_list">
+              年级人数: {{self_analysis_conclusion[3]}}  
+            </el-col>
+            <el-col :span="2"></el-col>
+          </el-row>
+          <template>
+            <el-table
+              :data="self_analysis"
+              stripe
+              style="width: 100%">
+              <el-table-column
+                prop="diff"
+                label="难度"
+                class="txt_center"
+               >
+              </el-table-column>
+              <el-table-column
+                prop="accuracy"
+                label="正确率"
+                class="txt_center"
+                >
+              </el-table-column>
+            </el-table>
+          </template>
+        </el-card>
       </el-col>
     </el-row>  
   </div>
@@ -202,10 +241,10 @@ export default {
         name:"XXX",
         className:"1601期",
         evaluate:"C",
-        comment:"革命尚未成功，同志仍需努力!"
+        comment:"同志仍需努力!"
       },
       type_flag:false,
-      params:{                      //数据包---待发送
+      params:{                      //构建基础数据包---待发送
         timeRange:{
           begin:this.start_year,
           end:this.end_year
@@ -217,7 +256,9 @@ export default {
         type:null,
         keyList:null
       },
-      analysisData:null             //最终返回的分析数据
+      analysisData:null,             //最终返回的分析数据
+      self_analysis:[],
+      self_analysis_conclusion:[]
     }
   },
   methods: {
@@ -283,12 +324,13 @@ export default {
     //  --1 by class
     search_class_info(){
       //--构建params包
+        var _this=this;
         this.params.type=1;
         this.keyList=this.class_tags;
       //--
       this.$http.get(
         '/analysis',
-        params
+        _this.params
       ).then(function(res){
         // this.$set(that.classList,res.data);
         this.analysisData=res.data;
@@ -297,16 +339,26 @@ export default {
     //  --2 by name
     search_student_info(){
       //--构建params包
+        var _this=this;
         this.params.type=0;
         this.keyList=this.student_tags;
       //--
       this.$http.get(
         '/analysis',
-        params
+        _this.params
       ).then(function(res){
         // this.$set(that.classList,res.data);
         this.analysisData=res.data;
       }); 
+    },
+    //------------------for self analysis strip list color --------------
+    tableRowClassName(row, index) {
+      if (index === 1) {
+        return 'info-row';
+      } else if (index === 3) {
+        return 'positive-row';
+      }
+      return '';
     }
     //-------------------------------------------------------------------
   },
@@ -315,10 +367,17 @@ export default {
     //  tell use which URL.
     var isMock = true;
     var urls=null;
+    var url_self=null;
+    var tmp=null;
+    //-------------------------------------------------------------------
+
+
     if(isMock){
       urls='./app/getClassList.json';
+      url_self='./app/self.json';
     }else{
       urls='/getClassList';
+      url_self='/analysisSelf';
     }
     //------获取班级信息-------------------------------------------------
 
@@ -328,6 +387,34 @@ export default {
       // this.$set(that.classList,res.data);
       that.which_class=res.data;
     });
+
+
+    //---------加载该页面时 ----右侧为个人统计信息-----------------------
+    this.$http.get(
+      url_self
+    ).then(function(res){
+      // this.$set(that.classList,res.data);
+      tmp=JSON.parse(res.body);
+      this.self_analysis_conclusion.push(tmp.classIndex);
+      this.self_analysis_conclusion.push(tmp.classCount);
+      this.self_analysis_conclusion.push(tmp.marsIndex);
+      this.self_analysis_conclusion.push(tmp.marsCount);
+      console.log(this.self_analysis_conclusion);
+      tmp=tmp.countList;
+      // tmp=that.self_analysis_raw.countList;
+      tmp.forEach(function(item){
+        var one_item={
+          diff:item.diff,
+          accuracy:(item.right/item.total*100).toFixed(1)+"%"
+        };
+        that.self_analysis.push(one_item);
+      })
+    });
+
+
+
+
+
 
     //--------------------------------------------------------------------
     //----echats part ----------------

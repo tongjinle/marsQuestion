@@ -1,0 +1,34 @@
+{
+    "flag":true,
+    "countList":[
+        {
+        "diff":1,
+        "right":1,
+        "total":10
+        },
+        {
+        "diff":2,
+        "right":2,
+        "total":10
+        },
+        {
+        "diff":3,
+        "right":3,
+        "total":10
+        },
+        {
+        "diff":4,
+        "right":4,
+        "total":10
+        },
+        {
+        "diff":5,
+        "right":5,
+        "total":10
+        }
+    ],
+    "classIndex":"13",
+    "classCount":"40",
+    "marsIndex":"40",
+    "marsCount":"230"
+}
