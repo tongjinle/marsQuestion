@@ -18,11 +18,13 @@
   	
   }
 
-.register{   
+.reg{   
 	margin-right: -15px;
 	-webkit-box-flex:1;
 	flex:1;
 	text-align:right;
+	display: none;
+	
 	
 }
 
@@ -36,7 +38,7 @@
 }
 
 .header_login{
-	display:none;
+	
 	color:#fff;
 	float: right!important;
 	padding:0;
@@ -45,26 +47,112 @@
 	line-height:71px;
 	text-align:center;
 	vertical-align:middle;
-	padding-left:81%;
+	padding-left:73%;
 
-	-webkit-box-flex:1;
+	-webkit-box-flex:1; 
 	flex:1;
+	position: relative;
 
-	.userImg{
-		display:inline-block;
-		width:29px;
-		height:29px;
-
-		img{
-			width:100%;
-			vertical-align:middle;
-		}
+	
+	div:first-of-type:hover{
+		background: rgba(255,255,255,0.3);
+		cursor: pointer;
 	}
 
 	span{
+		display: inline-block;
 		position:relative;
 		top:3px;
+		padding-left: 38px;
+		background: url("http://me.hxsd.com/public/comm/assets/img/avatar1_small.jpg") no-repeat 0 center;
 	}
+
+	i{
+		width: 7px;
+	    height: 4px;
+	    right: 25px;
+	    top: 36px;
+	    background: url(http://icon.qiantucdn.com/images/newIndex/headerico.png) no-repeat 0 -235px;
+	    position: absolute;
+	    overflow: hidden;
+	    display: block;
+
+	}
+
+
+
+	.seen1{
+		width: 106px;
+		position: absolute;
+		top: 51px;
+		right: 12px;
+		z-index: 10;
+		text-align: left;
+		box-shadow: 0 0 5px 0 rgba(0,0,0,0.3);
+
+		ul{
+			list-style: none;
+			background: #fff;
+			padding:20px 5px 10px 0;
+
+
+			li{
+			line-height: 30px;
+			height: 30px;
+			color: #4d5c6b;
+			padding-left: 40px;
+			font-size: 14px;
+			cursor: pointer;
+
+				a{
+					color: #000;
+				}
+				
+			}
+
+			
+
+			li:first-of-type{
+				background:url(http://icon.qiantucdn.com/images/newIndex/headerico.png?v3) no-repeat 20px -565px;
+
+			}
+			li:first-of-type:hover{
+				background: rgba(63,160,160,0.1) url(http://icon.qiantucdn.com/images/newIndex/headerico.png?v3) no-repeat 20px -565px;
+			}
+
+			li:nth-of-type(2){
+				background:url(http://icon.qiantucdn.com/images/newIndex/headerico.png?v3) no-repeat 20px -565px;
+			}
+			li:nth-of-type(2):hover{
+				background: rgba(63,160,160,0.1) url(http://icon.qiantucdn.com/images/newIndex/headerico.png?v3) no-repeat 20px -565px;
+			}
+
+			li:last-of-type{
+				background: url(http://icon.qiantucdn.com/images/homecenter/icon_v6.png) no-repeat 20px -359px;
+			}
+			li:last-of-type:hover{
+				background: rgba(63,160,160,0.1) url(http://icon.qiantucdn.com/images/homecenter/icon_v6.png) no-repeat 20px -359px;				
+			}
+			
+			
+		}
+
+	}
+
+
+	div:last-of-type:before{
+			content: '';
+			display: inline-block;
+			border:10px solid transparent;
+			border-bottom-color: #fff;
+			position: absolute;
+			top:-4px;
+			left: 41px;
+			z-index: 30;
+			
+		}
+
+
 	
 }
 

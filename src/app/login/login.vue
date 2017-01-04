@@ -3,29 +3,28 @@
     <header-component></header-component>
     <main class="main">
       <left-component></left-component>
-
+      <!-- <register-component></register-component> -->
       <div class="right">
-        <right-component></right-component>
+        <login-component></login-component>
         
       </div>
-    
     </main>
     <footer-component></footer-component>
   </div>
 </template>
 
 <script>
-import Header from './Header.vue';
-import left from './left.vue';
-import right from './right.vue';
-import Footer from './Footer.vue';
+import Header from '../Header.vue';
+import left from '../left.vue';
+import log from './log.vue';
+import Footer from '../Footer.vue';
 
 export default {
-  name: 'Main',
+  name: 'login',
   components: {
     'header-component': Header,
     'left-component': left,
-    'right-component': right,
+    'login-component': log,
     'footer-component': Footer
   }
 };

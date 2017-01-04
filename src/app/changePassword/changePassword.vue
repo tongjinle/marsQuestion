@@ -3,29 +3,28 @@
     <header-component></header-component>
     <main class="main">
       <left-component></left-component>
-
+      <!-- <register-component></register-component> -->
       <div class="right">
-        <right-component></right-component>
+        <change-component></change-component>
         
       </div>
-    
     </main>
     <footer-component></footer-component>
   </div>
 </template>
 
 <script>
-import Header from './Header.vue';
-import left from './left.vue';
-import right from './right.vue';
-import Footer from './Footer.vue';
+import Header from '../Header.vue';
+import left from '../left.vue';
+import change from './change.vue';
+import Footer from '../Footer.vue';
 
 export default {
-  name: 'Main',
+  name: 'changePassword',
   components: {
     'header-component': Header,
     'left-component': left,
-    'right-component': right,
+    'change-component': change,
     'footer-component': Footer
   }
 };
