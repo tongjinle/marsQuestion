@@ -1,15 +1,7 @@
 <template>
-  <!--<div class="title">
-    <h1 class="title-h1">'Allo, 'Allo!</h1>
-    <div>
-      <img class="title-logo" src="http://fountainjs.io/assets/imgs/yeoman.png"/>
-      <img class="title-logo" src="http://fountainjs.io/assets/imgs/fountain.png"/>
-    </div>
-    <h2 class="title-h2">Always a pleasure scaffolding your apps.</h2>
-  </div>-->
   <el-row :gutter="20" class='fullHeight'>
   	<div class="el-col el-col-2 fullScreen">
-	    <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" theme="dark">
+	    <el-menu default-active="2" class="el-menu-vertical-demo" theme="dark">
 	      <el-submenu index="1">
 	        <template slot="title">HTML</template>
 	        <el-submenu index="1-1">
@@ -29,41 +21,48 @@
 	      <el-menu-item index="3">JAVASCRIPT</el-menu-item>
 	    </el-menu>
   	</div>
-  	<el-col :span='10' class='question-wrap'>
+  	<el-col :span='12' class='question-wrap'>
   	   <el-card class='box-card'>
         <div slot="header" class="clearfix">
-          <span style="line-height: 36px;">[容易]递归</span>
-          <el-button style="float: right;" type="primary">收藏</el-button>
+          <div>
+            <el-tag type='success'>难度1</el-tag><span>递归算法</span>
+            <el-button style="float: right;" type="primary" size='small'>收藏</el-button>
+          </div>
         </div>
-        <div>请用javascript完成下列要求</div>
-        <div>输入数字n，返回n！的值</div>
+        <div><el-tag><i class="el-icon-document"></i>描述</el-tag>请用javascript完成下列要求：</div>
+        <br>
+        <el-card>
+          <div>输入一个正整数n,输出n！的值</div>
+        </el-card>
        </el-card>
        <el-card class='box-card'>
         <div slot="header" class="clearfix">
-          <span style="line-height: 36px;">标签</span>
+          <el-tag><i class="el-icon-document"></i>样例</el-tag>
         </div>
-        <div class='tags'>
-          <el-button style="float: left;" type="success">递归</el-button>
-          <el-button style="float: left;" type="success">javascript</el-button>
-          <el-button style="float: left;" type="success">经典题目</el-button>
+        <div class='example'>
+          function a(n){...};<br>
+          a(2);//结果为4
         </div>
        </el-card>
   	</el-col>
   	<el-col :span='10' class='question-wrap'>
        <el-card class='box-card'>
         <div slot="header" class="clearfix">
-          <span style="line-height: 36px;">输入代码</span>
+          <span>输入代码</span>
           <el-button style="float: right;" type="success">提交代码</el-button>
         </div>
-        <textarea class="input-wrap"></textarea>
+        <pre id='editor'>
+          function foo(items) {
+            var i;
+            for (i = 0; i &lt; items.length; i++) {
+                alert("Ace Rocks " + items[i]);
+            }
+          }
+        </pre>
        </el-card>
     </el-col>
-  	
   </el-row>
-  
-  
 </template>
-
 <script>
 export default {
   name: 'Title',

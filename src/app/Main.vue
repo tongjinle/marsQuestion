@@ -10,7 +10,7 @@
 
 <script>
 import Header from './Header.vue';
-import Title from './QuestionList.vue';
+import Title from './question.vue';
 import Footer from './Footer.vue';
 
 export default {

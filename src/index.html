@@ -6,6 +6,17 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link rel="icon" type="image/png" href="http://fountainjs.io/assets/imgs/fountain.png" />
+    <script type="text/javascript" src='./app/ace.js'></script>
+    <script type="text/javascript" src='./app/mode-javascript.js'></script>
+    <script type="text/javascript" src='./app/theme-twilight.js'></script>
+    <script>
+      window.onload=function () {
+        var editor = ace.edit("editor");
+        var JavaScriptMode = ace.require("ace/mode/javascript").Mode;
+        editor.session.setMode(new JavaScriptMode());
+        editor.setTheme("ace/theme/twilight");
+      }
+    </script>
   </head>
   <body>
     <!--[if lt IE 10]>
