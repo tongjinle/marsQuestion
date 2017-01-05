@@ -10,7 +10,8 @@
                 <el-col :span="12">
                   <el-select v-model="diff_from" placeholder="筛选难度等级">
                     <el-option v-for="item in hard_level" :label="item.label" 
-                    :value="item.value">
+                    :value="item.value"
+                    >
                     </el-option>
                   </el-select>
                 </el-col> 
@@ -35,7 +36,8 @@
                       v-model="start_year"
                       align="right"
                       type="date"
-                      placeholder="起始年份">
+                      placeholder="起始年份"
+                      >
                     </el-date-picker>
                   </div>  
                 </el-col> 
@@ -46,7 +48,8 @@
                       v-model="end_year"
                       align="right"
                       type="date"
-                      placeholder="终止年份">
+                      placeholder="终止年份"
+                      >
                     </el-date-picker>
                   </div>    
                 </el-col> 
@@ -91,7 +94,7 @@
               <el-col :span="6">
                 <el-button type="primary" 
                 @click="search_class_info"
-                :disabled="!if_class_button"
+                :disabled="!(selected_type!='' && selected_class != '' && diff_from != '' && diff_to!= '' && start_year != '' && end_year!='')"
                 >
                 查询班级</el-button>
               </el-col>  
@@ -133,7 +136,7 @@
               <el-col :span="4">
                 <el-button type="primary" 
                 @click="search_student_info"
-                :disabled="!if_student_button"
+                :disabled="!(selected_type!='' && selected_class != '' && diff_from != '' && diff_to!= '' && start_year != '' && end_year!='' && selected_student != '')"
                 >
                 查询学生</el-button>  
               </el-col> 
@@ -266,10 +269,7 @@ export default {
       },
       analysisData:null,             //最终返回的分析数据
       self_analysis:[],
-      self_analysis_conclusion:[],
-      if_class_button:
-      this.start_year!='' && this.end_year!='' && this.selected_type!='' && this.selected_class!='' && this.diff_from!='' && this.diff_to!='',
-      if_student_button:this.start_year!='' && this.end_year!='' && this.selected_type!='' && this.selected_class!='' && this.diff_from!='' && this.diff_to!='' && this.selected_student!=''
+      self_analysis_conclusion:[]
     }
   },
   methods: {
@@ -308,7 +308,6 @@ export default {
     },
     //构建待查询的class数组
     add_class_tag(selected_class){
-       console.log(this.if_class_button);
       var new_tag={
         name:selected_class,
         type:this.color[Math.floor(Math.random()*6)]
@@ -426,7 +425,6 @@ export default {
       this.self_analysis_conclusion.push(tmp.classCount);
       this.self_analysis_conclusion.push(tmp.marsIndex);
       this.self_analysis_conclusion.push(tmp.marsCount);
-      console.log(this.self_analysis_conclusion);
       tmp=tmp.countList;
       // tmp=that.self_analysis_raw.countList;
       tmp.forEach(function(item){
