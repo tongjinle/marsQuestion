@@ -23,7 +23,8 @@
 
       		<!-- <a href="javascript:;" id="denglu">登录</a> -->
      
-          <el-button type="text" :disabled="login" @click="ready"><router-link to="/">登录</router-link></el-button> 	<!--true的时候禁用,false的时候可以点击登录,用户名和密码都正确-->
+          <el-button type="text" :disabled="login" @click="ready">登录
+          </el-button> 	<!--true的时候禁用,false的时候可以点击登录,用户名和密码都正确-->
       	</form>
       	<p v-if="usernameFlag" class="name">用户名格式为[期数]-[姓名]-[同名加0001/0002]</p>
       	<p v-if="passwordFlag" class="mima">密码由8-16位字符组成(包含英文,下划线和数字),首字母必须为英文字母</p>
@@ -46,29 +47,37 @@ export default {
       remember:false,
     }
    },
+  mounted(){
+      this.username= localStorage.getItem('username');
+      this.password= localStorage.getItem('password');
+      this.remember=true;
+      this.login=false;
+      
+  },
   methods:{
     judgeUsername:function(){      
 
        var reg1=/^\d{4}-[\u4e00-\u9fa5]*/; //判断用户名
       this.usernameFlag=this.username==""?false:(reg1.test(this.username)==true?false:true);
 
-       var reg2=/^[a-zA-Z][a-zA-Z0-9_]{8,16}$/;  //判断密码
+       var reg2=/^[a-zA-Z][a-zA-Z0-9_]{7,15}$/;  //判断密码
        this.passwordFlag=this.password==""?false:(reg2.test(this.password)==true?false:true);
 
        if(this.usernameFlag==false&&this.passwordFlag==false&&this.username!=""&&this.password!=""){
         this.login=false;
         }
      },
+
      //************************************************************************************
     ready: function() {  
 
-       // var urlDict={};
-       //  var isMock=true;
-       //  if(isMock){         //判断是不是模拟数据
-       //    urlDict.login="./login.json";
-       //  }else{
-       //    urlDict.login="http://localhost:3000/login";
-       //  };
+       var urlDict={};
+        var isMock=true;
+        if(isMock){         //判断是不是模拟数据
+          urlDict.login="./app/login/login.json";
+        }else{
+          urlDict.login="http://localhost:3000/login";
+        };
 
         // this.$http({
         //           url:"./app/login/login.json",
@@ -93,30 +102,37 @@ export default {
         //   username:this.username,                  
         //   password:this.password      
         // };
-        this.$http.get("./app/login/login.json",{}).then((response)=> {
-          // console.log(response.data.username);
+      
+
+        this.$http.get(urlDict.login,{}).then((response)=> {
+        // console.log(response.data.username);
           if(response.data.username){     //如果返回true,登录成功
-            // console.log(123);
 
-        //判断是否勾选了保存密码
+           
+             
+
+        // 判断是否勾选了保存密码
         // console.log(this.remember)
-        if(this.remember){          
-          setCookie('userName', this.username, 14);
-          setCookie('passWord', this.password, 14);
-        };
-
-        this.username= getCookie('userName');
-        this.password= getCookie('passWord');
-
-
-
-
-
-
-
-
+        if(this.remember){
+          localStorage.setItem('username',this.username);          
+          localStorage.setItem('password',this.password);          
+          // setCookie('userName', this.username, 14);
+          // setCookie('passWord', this.password, 14);
+        }else{
+          localStorage.clear('userName');
+          localStorage.clear('passWord');
+           // removeCookie("userName");
+           // removeCookie("passWord");
+           this.username='';
+           this.password='';
+        }
 
 
+//------------------------------------------------------------
+        //跳转到首页 把用户名传出去
+        this.$router.push({path:'/changePassword'});
+        this.$emit("logChildTellMe",this.username);  //把用户名传给父级,暂时先跳到修改密码页面
+//--------------------------------------------------------------
          //设置cookie
         function setCookie(name, value, iDay){
             var oDate = new Date();
@@ -128,7 +144,7 @@ export default {
         //封装移除cookie的函数
         function removeCookie(key){
             setCookie(key,'',-1);
-        }
+        };
 
         //读取cookie
         function getCookie(name){

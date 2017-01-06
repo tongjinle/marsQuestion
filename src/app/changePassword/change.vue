@@ -17,7 +17,7 @@
   	
   	<div class="success" v-if="login">
 	  	<p>恭喜您,修改密码成功!</p>
-	  	<p><router-link to="/login">点击重新登录</router-link></p>
+	  	<p @click="ReLogin"><router-link to="/login">点击重新登录</router-link></p>
  	</div>
 
   </div>
@@ -44,7 +44,7 @@ export default {
    },
   methods:{
     judgeUsername:function(){      
-       var reg2=/^[a-zA-Z][a-zA-Z0-9_]{8,16}$/;  //判断密码
+       var reg2=/^[a-zA-Z][a-zA-Z0-9_]{7,15}$/;  //判断密码
        this.passwordFlag=this.newPassword==""?false:(reg2.test(this.newPassword)==true?false:true);
 
        this.conPasswordFlag=this.conPassword==""?false:(this.conPassword==this.newPassword ? false:true)   //判断新密码跟确认密码是否一致  
@@ -52,17 +52,18 @@ export default {
      },
 	  ready: function() {  //判断原来的密码是否输入正确
 
-	   // var urlDict={};
-	   //  var isMock=true;
-	   //  if(isMock){         //判断是不是模拟数据
-	   //    urlDict.login="./login.json";
-	   //  }else{
-	   //    urlDict.login="http://localhost:3000/login";
-	   //  };        
-	    this.$http.get("./app/changePassword/editPwd.json",{}).then((response)=> {
+	   var urlDict={};
+	    var isMock=true;
+	    if(isMock){         //判断是不是模拟数据
+	      urlDict.login="./app/changePassword/editPwd.json";
+	    }else{
+	      urlDict.login="http://localhost:3000/login";
+	    }; 
+
+	    this.$http.get(urlDict.login,{}).then((response)=> {
 	      // console.log(response.data.username);
 	      if(response.data.password){     //如果返回true,密码正确
-	        console.log(123);
+	        console.log("密码正确");
 	      }else{
 	      	this.wrong=true;
 	      }
@@ -70,13 +71,14 @@ export default {
 
 	   },
     saveInfo: function() {  //保存信息
-    	if(this.newPassword!=""&&this.conPassword!=""&&this.oldPassword!=""&&this.passwordFlag==false&&this.conPasswordFlag==false&&this.wrong==false){
+    	if(this.newPassword!=""&&this.conPassword!=""&&this.oldPassword!=""&&this.passwordFlag==false&&this.conPasswordFlag==false&&this.wrong==false){   //如果输入的内容都对,将新密码传给服务器
     		this.$http.get("./app/changePassword/newPassword.json",{});
     		this.login=true;
-    	}
-   
-
+    	}  
    },
+   ReLogin: function(){   //点击重新登录的时候,跳转到登录页面,并且取消原来的cookie
+
+   }
   }
 
 

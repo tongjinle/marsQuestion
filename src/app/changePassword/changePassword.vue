@@ -1,6 +1,6 @@
 <template>
   <div id="root">
-    <header-component></header-component>
+    <header-component ></header-component>
     <main class="main">
       <left-component></left-component>
       <!-- <register-component></register-component> -->
@@ -26,6 +26,32 @@ export default {
     'left-component': left,
     'change-component': change,
     'footer-component': Footer
-  }
+  },
+
+//  data(){
+//     return{  
+//       // headFatherSay:{
+//       //   logChildWords:"",
+//       //   flag:false,
+//       // }
+//       logChildWords:"123dsf",
+//       flag:true,
+//     }
+//    },
+// methods:{
+//     ListenToLog: function(msg){
+//        //接收到子集传来的用户名
+//       // console.log(msg);
+//       this.logChildWords=msg;
+//       if(msg){
+//         this.flag=true;
+//         console.log(this.flag);
+//       }
+      
+//     }
+//   }
+
+
+
 };
 </script>
