@@ -282,7 +282,7 @@ export default {
         type:null,
         keyList:null
       },
-      analysisData:null,             //最终返回的分析数据
+      analysisData:[],             //最终返回的分析数据
       self_analysis:[],
       self_analysis_conclusion:[],
       x_axis:[],
@@ -326,17 +326,21 @@ export default {
       return new_hard_level;
     }
   },
-  // watch:{
-  //   "analysisData":function(){
-  //     var data=this.analysisData.data;
-  //     this.x_axis.length=0;
-  //     data.forEach(function(item){
-  //       this.x_axis.push(item.key);
-  //       this.star1.push(((item.countList[0].right/item.countList[0].total)*100).toFixed(1));
-  //       this.star2.push(((item.countList[1].right/item.countList[1].total)*100).toFixed(1));
-  //     })
-  //   }
-  // },
+  watch:{
+    "analysisData":function(){
+      var data=this.analysisData.data;
+      console.log(typeof data);
+      console.log("data",data);
+      console.log(data.flag);
+      this.x_axis.length=0;
+      data.forEach(function(item){
+        this.x_axis.push(item.key);
+        console.log(this.x_axis);
+        this.star1.push(((item.countList[0].right/item.countList[0].total)*100).toFixed(1));
+        this.star2.push(((item.countList[1].right/item.countList[1].total)*100).toFixed(1));
+      })
+    }
+  },
   methods: {
     //----处理起止事件段的函数-------------------------------------------------------------
     handle_date(){
@@ -347,7 +351,6 @@ export default {
       var end_format_date=this.start_end_date[1].toString().substring(4,24);
       tmp=new Date(end_format_date);
       this.end_date=tmp.getTime();
-      console.log(this.start_date,this.end_date);
     },
     //--清空待全部查询数据的按钮-----------------------------------------------------------
     clear_class_arr(){
@@ -453,8 +456,7 @@ export default {
         url,
         _this.params
       ).then(function(res){
-        this.analysisData=res.data;
-        console.log(res.data);
+        _this.analysisData=JSON.parse(res.body);
       }); 
     },
     //  --2 by name
@@ -475,8 +477,7 @@ export default {
         url,
         _this.params
       ).then(function(res){
-        this.analysisData=res.data;
-        console.log(res.data);
+        this.analysisData=JSON.parse(res.body);
       }); 
     },
     //------------------for self analysis strip list color --------------
