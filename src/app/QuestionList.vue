@@ -129,7 +129,7 @@
         width='100'
         inline-template>
         <template>
-          <el-button type='success' size='small'>开始答题</el-button>
+          <el-button type='success' size='small' @click='goQuestion(row.info)'>开始答题</el-button>
         </template>  
       </el-table-column>
     </el-table>
@@ -222,6 +222,10 @@ export default {
               _this.tableLoading=false;
               _this.currentLevel=eval(response.body.diff);
             })
+      },
+      goQuestion:function(questionName){
+            let name=questionName;
+            router.go({name:'questionDetail',params:{name:name}});
       }
     },  
     mounted(){

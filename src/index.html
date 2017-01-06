@@ -9,14 +9,7 @@
     <script type="text/javascript" src='./app/ace.js'></script>
     <script type="text/javascript" src='./app/mode-javascript.js'></script>
     <script type="text/javascript" src='./app/theme-twilight.js'></script>
-    <script>
-      window.onload=function () {
-        var editor = ace.edit("editor");
-        var JavaScriptMode = ace.require("ace/mode/javascript").Mode;
-        editor.session.setMode(new JavaScriptMode());
-        editor.setTheme("ace/theme/twilight");
-      }
-    </script>
+    <script type="text/javascript" src='./app/ext-language_tools.js'></script>
   </head>
   <body>
     <!--[if lt IE 10]>
