@@ -10,15 +10,17 @@
                 <el-col :span="12">
                   <el-select v-model="diff_from" placeholder="筛选难度等级">
                     <el-option v-for="item in hard_level" :label="item.label" 
-                    :value="item.value"
+                    :value="item.label"
                     >
                     </el-option>
                   </el-select>
                 </el-col> 
                 <el-col :span="12">
-                  <el-select v-model="diff_to" placeholder="筛选难度等级">
-                    <el-option v-for="item in hard_level" :label="item.label" 
-                    :value="item.value">
+                  <el-select v-model="diff_to" placeholder="筛选难度等级"
+                   :disabled="diff_from==''"
+                  >
+                    <el-option v-for="item in diff_range" :label="item.label" 
+                    :value="item.label">
                     </el-option>
                   </el-select>
                 </el-col> 
@@ -27,32 +29,20 @@
           </el-col>
           <el-col :span="12">
             <el-card class="card-box">
-              <strong>统计时间跨度选择:</strong><br><br>
               <el-row :gutter="20">
-                <el-col :span="12">
+                <el-col :offset="3" :span="21">
+                  <strong>统计时间跨度选择:</strong><br><br>
                   <div class="block">
-                    <span class="demonstration"></span>
-                    <el-date-picker
-                      v-model="start_year"
-                      align="right"
-                      type="date"
-                      placeholder="起始年份"
-                      >
-                    </el-date-picker>
-                  </div>  
-                </el-col> 
-                <el-col :span="12">
-                  <div class="block">
-                    <span class="demonstration"></span>
-                    <el-date-picker
-                      v-model="end_year"
-                      align="right"
-                      type="date"
-                      placeholder="终止年份"
-                      >
-                    </el-date-picker>
-                  </div>    
-                </el-col> 
+                  <span class="demonstration"></span>
+                  <el-date-picker
+                    v-model="start_end_date"
+                    type="daterange"
+                    placeholder="选择日期范围"
+                    @change="handle_date"
+                    >
+                  </el-date-picker>
+                </div>
+                </el-col>
               </el-row>
             </el-card>
           </el-col>
@@ -77,9 +67,15 @@
                   <el-option v-for="item in which_class" :label="item" 
                   :value="item">
                   </el-option>
-                </el-select>      
+                </el-select>    
               </el-col>
               <el-col :span="10">
+                <el-tag
+                  :closable="false"
+                  type=""
+                >
+                已选择　：
+                </el-tag>　
                 <el-tag
                   v-for="tag in class_tags"
                   :closable="true"
@@ -94,9 +90,18 @@
               <el-col :span="6">
                 <el-button type="primary" 
                 @click="search_class_info"
-                :disabled="!(selected_type!='' && selected_class != '' && diff_from != '' && diff_to!= '' && start_year != '' && end_year!='')"
+                :disabled="!(selected_type!='' && selected_class != '' && diff_from != '' && diff_to!= '' && start_end_date != '')"
                 >
                 查询班级</el-button>
+                 <el-button
+                  type="silver"
+                  icon="delete"
+                  size="mini"
+                  class="clear_btn"
+                  @click="clear_class_arr"
+                  >
+                  清空班级
+                </el-button>  
               </el-col>  
             </el-row>    
           </el-col>
@@ -121,7 +126,13 @@
                   </el-option>
                 </el-select>
               </el-col>
-              <el-col :span="10">
+              <el-col :span="8">
+                <el-tag
+                  :closable="false"
+                  type=""
+                >
+                已选择　：
+                </el-tag>　
                 <el-tag
                   v-for="tag in student_tags"
                   :closable="true"
@@ -133,12 +144,21 @@
                 {{tag.name}}
                 </el-tag>
               </el-col> 
-              <el-col :span="4">
+              <el-col :span="6">
                 <el-button type="primary" 
                 @click="search_student_info"
-                :disabled="!(selected_type!='' && selected_class != '' && diff_from != '' && diff_to!= '' && start_year != '' && end_year!='' && selected_student != '')"
+                :disabled="!(selected_type!='' && selected_class != '' && diff_from != '' && diff_to!= '' && start_end_date != '' && selected_student != '')"
                 >
-                查询学生</el-button>  
+                查询学生</el-button> 
+                <el-button
+                  type="silver"
+                  icon="delete"
+                  size="mini"
+                  class="clear_btn"
+                  @click="clear_student_arr"
+                  >
+                  清空学生
+                </el-button>   
               </el-col> 
             </el-row>    
           </el-col>
@@ -216,20 +236,15 @@ export default {
   data() {
     return {
       hard_level: [{                     //难度选择框--   目前写死了
-        value: '选项1',
-        label: ' 1星---最易'
+        label:' 1星---最易'
       }, {
-        value: '选项2',
-        label: ' 2星'
+        label:' 2星'
       }, {
-        value: '选项3',
-        label: ' 3星'
+        label:' 3星'
       }, {
-        value: '选项4',
-        label: ' 4星'
+        label:' 4星'
       }, {
-        value: '选项5',
-        label: ' 5星---最难'
+        label:' 5星---最难'
       }],
       select_types:[
         "班级",
@@ -244,21 +259,21 @@ export default {
       selected_class:'',          //class下拉菜单 当前值
       selected_type:'',           //查询方式下拉菜单 当前值
       selected_student:'',        //student下拉菜单 当前值
-      start_year:'',              //时间起点
-      end_year:'',                //时间终点
+      start_end_date:'',          //时间起点终点
+      start_date:null,            //起点时间点 (毫秒)
+      end_date:null,              //终止时间点 (毫秒)
       color:["primary","success","warning","danger","gray","blue"],
       profile:{                   
         imgsrc:"http://img.zcool.cn/community/01e50a55bee3b66ac7253f361e874b.jpg",
         name:"XXX",
         className:"1601期",
-        evaluate:"C",
-        comment:"同志仍需努力!"
+        evaluate:"C"
       },
       type_flag:false,
       params:{                      //构建基础数据包---待发送
         timeRange:{
-          begin:this.start_year,
-          end:this.end_year
+          begin:this.start_date,
+          end:this.end_date
         },
         diffRange:{
           begin:this.diff_from,
@@ -269,12 +284,127 @@ export default {
       },
       analysisData:null,             //最终返回的分析数据
       self_analysis:[],
-      self_analysis_conclusion:[]
+      self_analysis_conclusion:[],
+      x_axis:[],
+      star1:[],
+      star2:[]
     }
   },
+  computed:{
+    //------难度低值选定后,删选高值范围  filter函数------------------------------
+    diff_range:function(){
+      var isToIndex;
+      this.hard_level.find((obj,i)=>{
+        if(obj.label==this.diff_to){
+          isToIndex =i;
+          return true
+        }
+      })
+      
+      var new_hard_level=[];
+      var isFromIndex;
+      this.hard_level.find((obj, i) => {        //ES6
+        if (obj.label == this.diff_from) {
+          isFromIndex = i;
+          return true;
+        }
+      });
+
+      if(this.diff_from!='' && this.diff_to==''){
+        this.diff_to=this.diff_from;
+      }
+
+      if(isToIndex<isFromIndex){
+        this.diff_to=this.diff_from;
+      }
+
+      for(var i=0;i<this.hard_level.length;i++){
+        if(i>=isFromIndex){
+          new_hard_level.push(this.hard_level[i]);
+        }
+      }
+      return new_hard_level;
+    }
+  },
+  // watch:{
+  //   "analysisData":function(){
+  //     var data=this.analysisData.data;
+  //     this.x_axis.length=0;
+  //     data.forEach(function(item){
+  //       this.x_axis.push(item.key);
+  //       this.star1.push(((item.countList[0].right/item.countList[0].total)*100).toFixed(1));
+  //       this.star2.push(((item.countList[1].right/item.countList[1].total)*100).toFixed(1));
+  //     })
+  //   }
+  // },
   methods: {
+    //----处理起止事件段的函数-------------------------------------------------------------
+    handle_date(){
+      var start_format_date=this.start_end_date[0].toString().substring(4,24);
+      var tmp=new Date(start_format_date);
+      this.start_date=tmp.getTime();
+      //-----------------------------------
+      var end_format_date=this.start_end_date[1].toString().substring(4,24);
+      tmp=new Date(end_format_date);
+      this.end_date=tmp.getTime();
+      console.log(this.start_date,this.end_date);
+    },
+    //--清空待全部查询数据的按钮-----------------------------------------------------------
+    clear_class_arr(){
+      this.class_tags.splice(0);
+    },
+    clear_student_arr(){
+      this.student_tags.splice(0);
+    },
+    //--------------------------------------------------------------------------------------
     //仅当选择class后,才在学生下拉菜单中加载数据----
     getStudentFromThisClass(selected_class){
+      var isMock=true;
+      var url=null;
+      if(isMock){
+        url='./app/studentName.json';
+      }else{
+        url='/getStudListByClass';
+      };
+      this.$http.get(
+        url
+      ).then(function(res){
+        this.which_student=res.data;
+      });  
+    },
+    //选择以何种方式查询分析数据----by class /  by name
+    select_which_type(){
+      this.selected_class=this.which_class[0];      //清空
+      if(this.selected_type=="班级"){
+        this.type_flag=true;
+      }else{
+        this.type_flag=false;
+      } 
+    },
+    //删除标签(同时删去该标签对应的待查询数据)-----------------------------------------------
+    handleClassClose(tag) {
+      this.class_tags.splice(this.class_tags.indexOf(tag), 1);
+    },
+    handleStudentClose(tag) {
+      this.student_tags.splice(this.student_tags.indexOf(tag), 1);
+    },
+    //----------------------------------------------------------------------------------------
+    //构建待查询的class数组
+    add_class_tag(selected_class){
+      var new_tag={
+        name:selected_class,
+        type:this.color[Math.floor(Math.random()*6)]
+      };
+      for(var i=0;i<this.class_tags.length;i++){
+        if(this.class_tags[i].name==selected_class){
+          return;
+        }
+      }
+      this.class_tags.push(new_tag);
+
+      //---------change 事件冲突 ---------------
+      //冗余,cas在以班级查询的同时为了保证学生栏实时更新,这里再写一次getStudentFromThisClass函数
+      // = = !!!
       var isMock=true;
       var url=null;
       if(isMock){
@@ -288,36 +418,8 @@ export default {
         // this.$set(that.classList,res.data);
         this.which_student=res.data;
       });  
-    },
-    //选择以何种方式查询分析数据----by class /  by name
-    select_which_type(){
-      this.class_tags.length=0;
-      this.student_tags.length=0;
-      if(this.selected_type=="班级"){
-        this.type_flag=true;
-      }else{
-        this.type_flag=false;
-      } 
-    },
-    //删除标签
-    handleClassClose(tag) {
-      this.class_tags.splice(this.class_tags.indexOf(tag), 1);
-    },
-    handleStudentClose(tag) {
-      this.student_tags.splice(this.student_tags.indexOf(tag), 1);
-    },
-    //构建待查询的class数组
-    add_class_tag(selected_class){
-      var new_tag={
-        name:selected_class,
-        type:this.color[Math.floor(Math.random()*6)]
-      };
-      for(var i=0;i<this.class_tags.length;i++){
-        if(this.class_tags[i].name==selected_class){
-          return;
-        }
-      }
-      this.class_tags.push(new_tag);
+
+      //------------------------------
     },
     //构建待查询的student数组
     add_student_tag(selected_student){
@@ -351,8 +453,8 @@ export default {
         url,
         _this.params
       ).then(function(res){
-        // this.analysisData=res.data;
-        alert("get class!")
+        this.analysisData=res.data;
+        console.log(res.data);
       }); 
     },
     //  --2 by name
@@ -373,8 +475,8 @@ export default {
         url,
         _this.params
       ).then(function(res){
-        // this.analysisData=res.data;
-        alert("get student!")
+        this.analysisData=res.data;
+        console.log(res.data);
       }); 
     },
     //------------------for self analysis strip list color --------------
@@ -444,43 +546,54 @@ export default {
     //--------------------------------------------------------------------
     //----echats part ----------------
     var myChart= echarts.init(document.getElementById("fig"));
-    myChart.setOption({
-        color: ['#3398DB'],
-        tooltip : {
-            trigger: 'axis',
-            axisPointer : {            
-                type : 'shadow'        
+    var option = {
+        tooltip: {
+            trigger: 'axis'
+        },
+        toolbox: {
+            feature: {
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
             }
         },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
+        legend: {
+            data:['1星','2星']
         },
-        xAxis : [
+        xAxis: [
             {
-                type : 'category',
-                data : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                axisTick: {
-                    alignWithLabel: true
+                type: 'category',
+                data: this.x_axis
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '1星',
+                min: 0,
+                max: 100,
+                interval: 10,
+                axisLabel: {
+                    formatter: '{value} %'
                 }
             }
         ],
-        yAxis : [
+        series: [
             {
-                type : 'value'
-            }
-        ],
-        series : [
-            {
-                name:'直接访问',
+                name:'1星',
                 type:'bar',
-                barWidth: '60%',
-                data:[10, 52, 200, 334, 390, 330, 220]
-            }
+                data:this.star1
+            },
+            {
+                name:'2星',
+                type:'bar',
+                data:this.star2
+            },
+           
         ]
-    })
+    };
+
+    myChart.setOption(option);
   }
 };
 </script>

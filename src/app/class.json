@@ -3,88 +3,93 @@
     "data":[
      {
      "key":"1601期",
-     "countList":{
+     "countList":[
+     {
          "diff":1,
          "right":73,
          "total":100
      },
-     "countList":{
+     {
          "diff":2,
          "right":55,
          "total":100
      },
-     "countList":{
+     {
          "diff":3,
          "right":49,
          "total":100
      },
-     "countList":{
+     {
          "diff":4,
          "right":45,
          "total":100
      },
-     "countList":{
+     {
          "diff":5,
          "right":25,
          "total":100
-     }
+        }   
+      ]
     },
     {
      "key":"1602期",
-     "countList":{
+     "countList":[
+     {
          "diff":1,
          "right":83,
          "total":100
      },
-     "countList":{
+     {
          "diff":2,
          "right":65,
          "total":100
      },
-     "countList":{
+     {
          "diff":3,
          "right":49,
          "total":100
      },
-     "countList":{
+     {
          "diff":4,
          "right":75,
          "total":100
      },
-     "countList":{
+     {
          "diff":5,
          "right":35,
          "total":100
-     }
+        }
+      ]
     },
     {
      "key":"1603期",
-     "countList":{
+     "countList":[
+     {
          "diff":1,
          "right":79,
          "total":100
      },
-     "countList":{
+     {
          "diff":2,
          "right":75,
          "total":100
      },
-     "countList":{
+     {
          "diff":3,
          "right":69,
          "total":100
      },
-     "countList":{
+     {
          "diff":4,
          "right":85,
          "total":100
      },
-     "countList":{
+     {
          "diff":5,
          "right":65,
          "total":100
-     }
+        }
+      ]
     }
-     ]
-     
- }
+  ]   
+}
