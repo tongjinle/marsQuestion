@@ -164,7 +164,8 @@
           </el-col>
         </el-row>
         <el-card class="box-card">
-          <div id="fig"></div>
+           <div id="fig4self" v-show="flag4whichAnalysis"></div>
+          <div id="fig" v-show="!flag4whichAnalysis"></div>
         </el-card>
       </el-col>
       <el-col :span="7" class="right_outer"> 
@@ -184,7 +185,18 @@
         </div>   
         <el-card class="card-box self_analysis">
           <div slot="header" class="clearfix">
-            <strong style="line-height: 25px;">个人成绩统计</span>
+            <el-row :gutter="20">
+              <el-col :offset="2" :span="12">
+                <strong style="line-height: 25px;">个人成绩统计</strong>  
+              </el-col>
+              <el-col :offset="1" :span="9">
+                <el-button type="blue" size="small"
+                @click="generateFigSelf"
+                >
+                个人成绩图表
+                </el-button>
+              </el-col>
+            </el-row>
           </div>
           <el-row :gutter="20">
             <el-col :offset="1" :span="10" class="con_list">
@@ -262,6 +274,7 @@ export default {
       start_end_date:'',          //时间起点终点
       start_date:null,            //起点时间点 (毫秒)
       end_date:null,              //终止时间点 (毫秒)
+      self_analysis_pics_data_arr:[],
       color:["primary","success","warning","danger","gray","blue"],
       profile:{                   
         imgsrc:"http://img.zcool.cn/community/01e50a55bee3b66ac7253f361e874b.jpg",
@@ -282,12 +295,13 @@ export default {
         type:null,
         keyList:null
       },
-      analysisData:[],             //最终返回的分析数据
+      analysisData:{},             //最终返回的分析数据
       self_analysis:[],
       self_analysis_conclusion:[],
       x_axis:[],
       star1:[],
-      star2:[]
+      star2:[],
+      flag4whichAnalysis:false
     }
   },
   computed:{
@@ -327,18 +341,57 @@ export default {
     }
   },
   watch:{
-    "analysisData":function(){
-      var data=this.analysisData.data;
-      console.log(typeof data);
-      console.log("data",data);
-      console.log(data.flag);
-      this.x_axis.length=0;
-      data.forEach(function(item){
-        this.x_axis.push(item.key);
-        console.log(this.x_axis);
-        this.star1.push(((item.countList[0].right/item.countList[0].total)*100).toFixed(1));
-        this.star2.push(((item.countList[1].right/item.countList[1].total)*100).toFixed(1));
-      })
+    "x_axis":function(){ 
+      //--------------------------------------------------------------------
+      //----echats part ----------------
+      var myChart= echarts.init(document.getElementById("fig"));
+      var option = {
+          tooltip: {
+              trigger: 'axis'
+          },
+          toolbox: {
+              feature: {
+                  magicType: {show: true, type: ['line', 'bar']},
+                  restore: {show: true},
+                  saveAsImage: {show: true}
+              }
+          },
+          legend: {
+              data:['1星','2星']
+          },
+          xAxis: [
+              {
+                  type: 'category',
+                  data: this.x_axis
+              }
+          ],
+          yAxis: [
+              {
+                  type: 'value',
+                  name: '1星',
+                  min: 0,
+                  max: 100,
+                  interval: 10,
+                  axisLabel: {
+                      formatter: '{value} %'
+                  }
+              }
+          ],
+          series: [
+              {
+                  name:'1星',
+                  type:'bar',
+                  data:this.star1
+              },
+              {
+                  name:'2星',
+                  type:'bar',
+                  data:this.star2
+              },
+             
+          ]
+      };
+      myChart.setOption(option);
     }
   },
   methods: {
@@ -440,6 +493,7 @@ export default {
     //------------发送(短码 暂未做)请求,发送params数据包----------------------
     //  --1 by class
     search_class_info(){
+      this.flag4whichAnalysis=false;
       var isMock=true;
       var url=null;
       if(isMock){
@@ -456,11 +510,20 @@ export default {
         url,
         _this.params
       ).then(function(res){
-        _this.analysisData=JSON.parse(res.body);
+        var data=JSON.parse(res.body);
+        _this.x_axis.length=0;
+        _this.star1.length=0;
+        _this.star2.length=0;
+        data.data.forEach(function(item){
+          _this.x_axis.push(item.key);
+          _this.star1.push(((item.countList[0].right/item.countList[0].total)*100).toFixed(1));
+          _this.star2.push(((item.countList[1].right/item.countList[1].total)*100).toFixed(1));
+        })
       }); 
     },
     //  --2 by name
     search_student_info(){
+      this.flag4whichAnalysis=false;
       var isMock=true;
       var url=null;
       if(isMock){
@@ -477,7 +540,15 @@ export default {
         url,
         _this.params
       ).then(function(res){
-        this.analysisData=JSON.parse(res.body);
+         var data=JSON.parse(res.body);
+        _this.x_axis.length=0;
+        _this.star1.length=0;
+        _this.star2.length=0;
+        data.data.forEach(function(item){
+          _this.x_axis.push(item.key);
+          _this.star1.push(((item.countList[0].right/item.countList[0].total)*100).toFixed(1));
+          _this.star2.push(((item.countList[1].right/item.countList[1].total)*100).toFixed(1));
+        })
       }); 
     },
     //------------------for self analysis strip list color --------------
@@ -488,8 +559,56 @@ export default {
         return 'positive-row';
       }
       return '';
-    }
+    },
     //-------------------------------------------------------------------
+    //------------生成个人成绩扇形图-------------
+    generateFigSelf(){
+      // draw something-----
+      this.flag4whichAnalysis=true;
+      var myChart= echarts.init(document.getElementById("fig4self"));
+      var option = {
+          title: {
+              text: '答题正确率统计表'
+          },
+          toolbox: {
+              feature: {
+                  restore: {show: true},
+                  saveAsImage: {show: true}
+              }
+          },
+          tooltip: {},
+          radar: {
+              // shape: 'circle',
+              indicator: [
+                 { name: '1星难度 (%)', max: 100},
+                 { name: '2星难度 (%)', max: 100},
+                 { name: '3星难度 (%)', max: 100},
+                 { name: '4星难度 (%)', max: 100},
+                 { name: '5星难度 (%)', max: 100},
+              ]
+          },
+          series: [{
+              name: '正确率',
+              type: 'radar',
+              // areaStyle: {normal: {}},
+              data: [
+                      {
+                          value: this.self_analysis_pics_data_arr,
+                          label: {
+                              normal: {
+                                  show: true,
+                                  formatter:function(params) {
+                                      return params.value;
+                                  }
+                              }
+                          }
+                      }
+                  ]    
+          }]
+      }; 
+
+      myChart.setOption(option); 
+    }
   },
   mounted(){
     var that=this;                 //存个this
@@ -535,66 +654,11 @@ export default {
           diff:item.diff,
           accuracy:(item.right/item.total*100).toFixed(1)+"%"
         };
+        var acc=(item.right/item.total*100);
         that.self_analysis.push(one_item);
+        that.self_analysis_pics_data_arr.push(acc);  
       })
     });
-
-
-
-
-
-
-    //--------------------------------------------------------------------
-    //----echats part ----------------
-    var myChart= echarts.init(document.getElementById("fig"));
-    var option = {
-        tooltip: {
-            trigger: 'axis'
-        },
-        toolbox: {
-            feature: {
-                magicType: {show: true, type: ['line', 'bar']},
-                restore: {show: true},
-                saveAsImage: {show: true}
-            }
-        },
-        legend: {
-            data:['1星','2星']
-        },
-        xAxis: [
-            {
-                type: 'category',
-                data: this.x_axis
-            }
-        ],
-        yAxis: [
-            {
-                type: 'value',
-                name: '1星',
-                min: 0,
-                max: 100,
-                interval: 10,
-                axisLabel: {
-                    formatter: '{value} %'
-                }
-            }
-        ],
-        series: [
-            {
-                name:'1星',
-                type:'bar',
-                data:this.star1
-            },
-            {
-                name:'2星',
-                type:'bar',
-                data:this.star2
-            },
-           
-        ]
-    };
-
-    myChart.setOption(option);
   }
 };
 </script>
