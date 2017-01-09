@@ -7,9 +7,6 @@
         "module": "commonjs",
         "noEmitOnError": true
     },
-    "files": [
-
-    ],
     "include": [
         "app.ts",
         "*Route.ts",
