@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Main from './app/Main.vue';
-import DataAnalysis from './app/DataAnalysis.vue';
 import ElementUI from 'element-ui';
+import Content from './app/Content.vue';
 
 Vue.use(ElementUI);
 
@@ -17,8 +17,11 @@ Vue.use(VueResource);
 const router = new VueRouter({
   mode: 'history',
   routes: [
-  {path: '/', components: {default: Main}},
-  {path: '/DataAnalysis', components: {default: DataAnalysis}}
+  	{path: '/', component: Main,
+  	children:[
+  	  {path:'DataAnalysis',component:Content}
+  	]
+   }
   ]
 });
 

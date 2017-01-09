@@ -415,18 +415,20 @@ export default {
     //--------------------------------------------------------------------------------------
     //仅当选择class后,才在学生下拉菜单中加载数据----
     getStudentFromThisClass(selected_class){
-      var isMock=true;
+      var isMock=false;
       var url=null;
       if(isMock){
         url='./app/studentName.json';
       }else{
-        url='/getStudListByClass';
+        url='http://localhost:5050/getStudListByClass';
       };
+
       this.$http.get(
         url
       ).then(function(res){
-        this.which_student=res.data;
-      });  
+        console.log(res);
+        this.which_student=JSON.parse(res.body).data; 
+      });
     },
     //选择以何种方式查询分析数据----by class /  by name
     select_which_type(){
@@ -461,18 +463,18 @@ export default {
       //---------change 事件冲突 ---------------
       //冗余,cas在以班级查询的同时为了保证学生栏实时更新,这里再写一次getStudentFromThisClass函数
       // = = !!!
-      var isMock=true;
+      var isMock=false;
       var url=null;
       if(isMock){
         url='./app/studentName.json';
       }else{
-        url='/getStudListByClass';
+        url='http://localhost:5050/getStudListByClass';
       };
       this.$http.get(
         url
       ).then(function(res){
         // this.$set(that.classList,res.data);
-        this.which_student=res.data;
+        this.which_student=JSON.parse(res.body).data;
       });  
 
       //------------------------------
