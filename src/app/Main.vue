@@ -1,11 +1,13 @@
 <template>
   <div id="root">
+    <div class="model" v-if="loading"><img src="images/Loading.gif"></div><!--模态层-->
     <header-component :msgfromheader="headFatherSay"></header-component>
     <main class="main">
       <left-component></left-component>
 
       <div class="right">
-        <right-component v-on:rightChildTellMe="ListenToright" v-on:isReLogin="isReLogin"></right-component> 
+        <right-component v-on:rightChildTellMe="ListenToright" v-on:isReLogin="isReLogin" 
+        v-on:myLogin="myLogin"></right-component> 
         
       </div>
     
@@ -33,9 +35,9 @@ export default {
       headFatherSay:{
         logChildWords:" ",
         flag:false,
-      }
-      // logChildWords:"123dsf",
-      // flag:true,
+      } ,
+      LogOut:false,
+      loading:false   
     }
    },
 
@@ -53,9 +55,15 @@ export default {
       //接收到子集(right.vue)传来的是否登录
       if(msg){
         //告诉header 切换为登录状态
-        this.headFatherSay.flag=false;
-        
-
+        this.headFatherSay.flag=false;       
+      }
+    },
+    myLogin:function(msg){  //点击了登录,出模态层
+      // console.log(msg);
+      if(msg==true){
+        this.loading=true;
+      }else{
+        this.loading=false;
       }
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <div>
    <router-view v-on:logChildTellMe="ListenToLog" v-on:isReLogin="isReLogin" 
-   v-bind:isrelogin="isLogin"></router-view> 
+   v-bind:isrelogin="isLogin" v-on:sendToken="sendTokenMsg" v-bind:sendTokenMsg="tokenMsg" v-on:myLogin="myLogin"></router-view> 
   </div>
 </template>
 
@@ -13,9 +13,10 @@ export default {
    data(){
     return{  
         isLogin:false,
+        tokenMsg:""
     }
    },
-
+  // props:["isLogOut"],   //是否登录 传给子集(log.vue)
   methods:{
     ListenToLog: function(msg){
        //接收到子集(log.vue)传来的用户名
@@ -33,6 +34,16 @@ export default {
 //告诉log.vue 取消cookies ,将消息传给子集(log.vue)
     		this.isLogin=true;
     	}
+    },
+    sendTokenMsg:function(msg){   //接收token
+    	//再传给子级(change.vue)
+    	this.tokenMsg=msg;
+    },
+    myLogin:function(msg){   //点击登录传来的
+    	console.log(msg);
+    	  //说明点击了登录,告诉main
+		this.$emit("myLogin",msg); 
+    	
     }
   }
 };

@@ -24,7 +24,7 @@
       <ul v-on:mouseleave="seen=false">
         <li><router-link to="/">个人中心</router-link></li>
         <li><router-link to="/changePassword">修改密码</router-link></li>
-        <li><router-link to="/">退出</router-link></li>
+        <li @click="logOut"><router-link to="/">退出</router-link></li>
       </ul>
     </div> 
 
@@ -46,7 +46,11 @@
   props: ["msgfromheader"],  //接收父级传来的消息
    
   methods:{
-    
+    logOut:function(){  //点击 退出 登录 改header
+      // //传flag出去告诉header和log  传给父级(main.vue)
+      // this.$emit("isLogOut","yes");
+      this.msgfromheader.flag=false;
+    }
   }
 
 

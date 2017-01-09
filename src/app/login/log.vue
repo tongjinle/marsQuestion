@@ -45,13 +45,15 @@ export default {
       passwordFlag:false, 
       login:true,
       remember:false,
+      isShowModel:true
     }
    },
-   props:["isrelogin"], //接收父级(right.vue)传来的是否重新登录消息
+   props:["isrelogin"], //接收父级(right.vue)传来的是否重新登录
+
 
   mounted(){
     if(this.isrelogin){
-      console.log(this.isrelogin);
+      // console.log(this.isrelogin);
 
       localStorage.clear('userName');
       localStorage.clear('passWord');
@@ -73,55 +75,45 @@ export default {
        var reg2=/^[a-zA-Z][a-zA-Z0-9_]{7,15}$/;  //判断密码
        this.passwordFlag=this.password==""?false:(reg2.test(this.password)==true?false:true);
 
-       if(this.usernameFlag==false&&this.passwordFlag==false&&this.username!=""&&this.password!=""){
-        this.login=false;
-        }
+       // if(this.usernameFlag==false&&this.passwordFlag==false&&this.username!=""&&this.password!=""){
+       //  this.login=false;
+       //  }
      },
 
      //************************************************************************************
-    ready: function() {  
+    ready: function() {  //登录
+
+      //点击登录的时候加模态层 (传值给main.vue)
+      this.$emit("myLogin",this.isShowModel);
+
 
        var urlDict={};
-        var isMock=true;
+        var isMock=false;
         if(isMock){         //判断是不是模拟数据
           urlDict.login="./app/login/login.json";
         }else{
           urlDict.login="http://10.21.117.213:5050/login";
         };
 
-        // this.$http({
-        //           url:"./app/login/login.json",
-        //           method: 'POST',
-        //           emulateJSON: true,
-        //           data: {
-        //               username:this.username,                  
-        //               password:this.password                   
-        //           }
-        //       }).then(function(response) {
-        //         console.log(response.data.username)
-        //         /*if(response){   //如果返回true,登录成功
-
-        //         }*/
-                  
-
-        //       })
-        //      /* .error(function(response) {
-        //         alert("数据获取失败,请重新登录!")
-        //       }) */
-
         var data={
           username:this.username,                  
           password:this.password      
         };
       
+      if(this.usernameFlag==false&&this.passwordFlag==false&&this.username!=""&&this.password!=""){    
+        this.$http.post(urlDict.login,data).then((response)=> {
 
-        this.$http.get(urlDict.login,data).then((response)=> {
-        // console.log(response.data.flag);
+        console.log(response.data.flag);
+        console.log(response.data.token);
 
-          if(response.data.username){     //如果返回true,登录成功
+        var token=response.data.token;   //要传给change.vue
+        //先传给父级(right.vue)
+        this.$emit("sendToken",token);
 
-           
-             
+        if(response.data.flag){     //如果返回true,登录成功
+          //隐藏模态层
+          this.isShowModel=false;
+          this.$emit("myLogin",this.isShowModel);
 
         // 判断是否勾选了保存密码
         // console.log(this.remember)
@@ -177,8 +169,8 @@ export default {
 
           }
         })
-
-        
+ }
+       /***************/ 
 
         
 
