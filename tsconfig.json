@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "sourceMap": false,
+        "declaration": false,
+        "outDir": "dist",
+        "target": "es6",
+        "module": "commonjs",
+        "noEmitOnError": true
+    },
+    "files": [
+
+    ],
+    "include": [
+        "app.ts",
+        "*Route.ts",
+        "logic/**/*.ts",
+        "server/**/*.ts",
+        "test/**/*.ts"
+    ]
+}
