@@ -4,7 +4,7 @@
    <p class="header_logo"><router-link to="/"><img src="http://me.hxsd.com/public/comm/assets/img/logo.png"></router-link></p>
 
 <!--登录之前显示的-->
-  <div class="reg" v-if="flag">
+  <div class="reg" v-if="!msgfromheader.flag">
     <el-menu  theme="dark" default-active="1" class="el-menu-demo" mode="horizontal">
     
       <el-menu-item index="1"><router-link to="/login">登录</router-link></el-menu-item>
@@ -14,9 +14,9 @@
  
 
 <!--登录成功后显示的-->
-  <div class="header_login" v-if="!flag">
+  <div class="header_login" v-if="msgfromheader.flag">
     <div v-on:mouseenter="seen=true">
-      <span>{{msgFromHeader}}</span><!--v-text="msgFromHeader"-->
+      <span>{{msgfromheader.logChildWords}}</span><!--v-text="msgFromHeader"-->
       <i></i>
     </div> 
 
@@ -43,7 +43,7 @@
      seen:false,      
     }
   },
-  props: ["msgFromHeader"],  //接收父级传来的消息
+  props: ["msgfromheader"],  //接收父级传来的消息
    
   methods:{
     

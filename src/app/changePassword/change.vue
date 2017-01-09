@@ -17,7 +17,7 @@
   	
   	<div class="success" v-if="login">
 	  	<p>恭喜您,修改密码成功!</p>
-	  	<p @click="ReLogin"><router-link to="/login">点击重新登录</router-link></p>
+	  	<p @click="ReLogin">点击重新登录</p>
  	</div>
 
   </div>
@@ -60,7 +60,11 @@ export default {
 	      urlDict.login="http://localhost:3000/login";
 	    }; 
 
-	    this.$http.get(urlDict.login,{}).then((response)=> {
+      var data={
+          username:this.newPassword                       
+        };
+
+	    this.$http.get(urlDict.login,data).then((response)=> {
 	      // console.log(response.data.username);
 	      if(response.data.password){     //如果返回true,密码正确
 	        console.log("密码正确");
@@ -72,13 +76,22 @@ export default {
 	   },
     saveInfo: function() {  //保存信息
     	if(this.newPassword!=""&&this.conPassword!=""&&this.oldPassword!=""&&this.passwordFlag==false&&this.conPasswordFlag==false&&this.wrong==false){   //如果输入的内容都对,将新密码传给服务器
-    		this.$http.get("./app/changePassword/newPassword.json",{});
+    		// this.$http.post("./app/changePassword/newPassword.json",{});
     		this.login=true;
     	}  
    },
    ReLogin: function(){   //点击重新登录的时候,跳转到登录页面,并且取消原来的cookie
+     //跳转到首页 
+        this.$router.push({path:'/login'});
+      //传一个flag给父级(right.vue)
+      this.$emit("isReLogin","yes");
 
    }
+
+
+
+
+
   }
 
 

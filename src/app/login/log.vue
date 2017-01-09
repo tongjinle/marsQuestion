@@ -47,12 +47,22 @@ export default {
       remember:false,
     }
    },
+   props:["isrelogin"], //接收父级(right.vue)传来的是否重新登录消息
+
   mounted(){
+    if(this.isrelogin){
+      console.log(this.isrelogin);
+
+      localStorage.clear('userName');
+      localStorage.clear('passWord');
+       this.username='';
+       this.password='';
+    };
       this.username= localStorage.getItem('username');
       this.password= localStorage.getItem('password');
       this.remember=true;
       this.login=false;
-      
+
   },
   methods:{
     judgeUsername:function(){      
@@ -76,7 +86,7 @@ export default {
         if(isMock){         //判断是不是模拟数据
           urlDict.login="./app/login/login.json";
         }else{
-          urlDict.login="http://localhost:3000/login";
+          urlDict.login="http://10.21.117.213:5050/login";
         };
 
         // this.$http({
@@ -98,14 +108,16 @@ export default {
         //      /* .error(function(response) {
         //         alert("数据获取失败,请重新登录!")
         //       }) */
-        // var data={
-        //   username:this.username,                  
-        //   password:this.password      
-        // };
+
+        var data={
+          username:this.username,                  
+          password:this.password      
+        };
       
 
-        this.$http.get(urlDict.login,{}).then((response)=> {
-        // console.log(response.data.username);
+        this.$http.get(urlDict.login,data).then((response)=> {
+        // console.log(response.data.flag);
+
           if(response.data.username){     //如果返回true,登录成功
 
            
@@ -130,7 +142,7 @@ export default {
 
 //------------------------------------------------------------
         //跳转到首页 把用户名传出去
-        this.$router.push({path:'/changePassword'});
+        this.$router.push({path:'/'});
         this.$emit("logChildTellMe",this.username);  //把用户名传给父级,暂时先跳到修改密码页面
 //--------------------------------------------------------------
          //设置cookie

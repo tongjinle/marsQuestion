@@ -1,6 +1,6 @@
 <template>
   <div id="root">
-    <header-component :msgFromHeader="logChildWords"></header-component>
+    <header-component :msgfromheader="headFatherSay"></header-component>
     <main class="main">
       <left-component></left-component>
       <!-- <register-component></register-component> -->
@@ -31,12 +31,12 @@ export default {
   },
   data(){
     return{  
-      // headFatherSay:{
-      //   logChildWords:"",
-      //   flag:false,
-      // }
-      logChildWords:"123dsf",
-      flag:true,
+      headFatherSay:{
+        logChildWords:"54desfrsde",
+        flag:false,
+      }
+      // logChildWords:"123dsf",
+      // flag:true,
     }
    },
 
