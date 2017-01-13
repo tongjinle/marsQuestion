@@ -2,8 +2,8 @@
   <div id="root">
     <header-component></header-component>
     <main>
-      <title-component></title-component>
-      <techs></techs>
+      <leftnav-component></leftnav-component>
+      <right-component></right-component>
     </main>
     <footer-component></footer-component>
   </div>
@@ -11,17 +11,18 @@
 
 <script>
 import Header from './Header.vue';
-import Title from './Title.vue';
-import Techs from './techs/Techs.vue';
+import LeftNav from './LeftNav.vue';
 import Footer from './Footer.vue';
+import Right from './Right.vue';
 
 export default {
   name: 'Main',
   components: {
     'header-component': Header,
-    'title-component': Title,
-    'techs': Techs,
+    'leftnav-component':LeftNav,
+    'right-component':Right,
     'footer-component': Footer
   }
 };
+
 </script>

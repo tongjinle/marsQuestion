@@ -37,7 +37,10 @@ res:
 ===================分割线======================
 3 统计
 req:
-url:'/analysis'
+
+url:'/analysis/:shortCode?'
+** 如果传了shortCode,则不用传送params了
+
 type:get
 params:{
     // 时间段
@@ -125,26 +128,17 @@ res
 
 7 请求生成url短码
 req:
-url:'/genShortUrl'
+
+url:'/genShortCode'
+
 type:get
 params:同"统计"的params
 
 res:
 {
-    shortUrl:string
+    shortCode:string
 }
 
-===================分割线======================
-
-8 通过url短码来
-req:
-url:'/analysisByShortUrl'
-type:get
-params:{
-    shortUrl:string
-}
-
-res:同"统计"的res
 
 ===================分割线======================
 
@@ -219,6 +213,10 @@ res:
     // 代码
     code:string,
     isPass:boolean,
+
+    right:number,
+    total:number,
+
     // 运行速度
     speed:number
 }
