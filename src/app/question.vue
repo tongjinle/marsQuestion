@@ -26,24 +26,22 @@
   	   <el-card class='box-card'>
         <div slot="header" class="clearfix">
           <div>
-            <el-tag type='success' v-loading.fullscreen.lock="fullscreenLoading">难度1</el-tag><el-tag type='success'>参与人数:100</el-tag><el-tag type='success'>通过人数：30</el-tag><span>递归算法</span>
-            <el-button style="float: right;" type="primary" size='small'>收藏</el-button>
+            <el-tag type='success' v-loading.fullscreen.lock="fullscreenLoading">{{level}}</el-tag><el-tag type='success'>参与人数:{{total}}</el-tag><el-tag type='success'>通过人数：{{success}}</el-tag><span>{{name}}</span>
+            <!--<el-button style="float: right;" type="primary" size='small'>收藏</el-button>-->
           </div>
         </div>
-        <div><el-tag><i class="el-icon-document"></i>描述</el-tag>请用javascript完成下列要求：</div>
+        <div><el-tag><i class="el-icon-document"></i>描述</el-tag>{{descTitle}}</div>
         <br>
         <el-card>
-          <div>输入一个正整数n,输出n！的值</div>
+          <div>{{descTxt}}</div>
         </el-card>
        </el-card>
        <el-card class='box-card'>
         <div slot="header" class="clearfix">
           <el-tag><i class="el-icon-document"></i>样例</el-tag>
         </div>
-        <div class='example'>
-          function a(n){...};<br>
-          a(2);//结果为4
-        </div>
+        <pre class='brush:js;smart-tab: true' v-text='example'>
+        </pre>
        </el-card>
        <div v-if='isCommit'>
           <el-alert
@@ -64,13 +62,13 @@
       
   	</el-col>
   	<el-col :span='10' class='question-wrap'>
-       <el-card class='box-card'>
+      <el-card class='box-card'>
         <div slot="header" class="clearfix">
           <span>输入代码</span>
           <div><el-tag type='success'>按Ctrl+Shift+Space开启代码提示</el-tag><el-button style="float: right;" type="success" size='small' @click='getValue'>提交代码</el-button></div>
         </div>
-        <pre id='editor'></pre>
-       </el-card>
+         <pre id='editor'></pre>
+      </el-card>
     </el-col>
   </el-row>
   
@@ -86,8 +84,14 @@ export default {
       isPass:false,
       successTxt:'运行成功，用时',
       failTxt:'啊哦，代码报错了，再检查检查',
-      questionDetail:null,
-      fullscreenLoading:false
+      fullscreenLoading:false,
+      level:'',
+      total:'',
+      success:'',
+      name:'',
+      descTxt:'',
+      example:'',
+      descTitle:''
     }
   },
   methods:{
@@ -103,10 +107,17 @@ export default {
       Mock?url='./questionDetail.json':'';
       let _this=this;
       _this.$http.get(url).then((response) => {
-        console.log(JSON.parse(response.body));
-        _this.questionDetail=JSON.parse(response.body);
-        console.log(_this.questionDetail.level);
-        console.log(typeof(_this.questionDetail));
+        //console.log(JSON.parse(response.body));
+
+        //_this.questionDetail=JSON.parse(response.body);
+        let questionDetail=JSON.parse(response.body);
+        _this.level=questionDetail.level;
+        _this.total=questionDetail.total;
+        _this.success=questionDetail.success;
+        _this.name=questionDetail.name;
+        _this.descTxt=questionDetail.descTxt;
+        _this.descTitle=questionDetail.descTitle;
+        _this.example=questionDetail.example;
         this.closeFullScreen();
       })
     },
@@ -140,7 +151,12 @@ export default {
         enableBasicAutocompletion: true,
         enableLiveAutocompletion: true
         });
+
         this.getQuestion();
+        setTimeout(function(){
+          SyntaxHighlighter.highlight();
+        },500);
+
   }
   
 };
