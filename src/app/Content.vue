@@ -415,7 +415,7 @@ export default {
     //--------------------------------------------------------------------------------------
     //仅当选择class后,才在学生下拉菜单中加载数据----
     getStudentFromThisClass(selected_class){
-      var isMock=false;
+      var isMock=true;
       var url=null;
       if(isMock){
         url='./app/studentName.json';
@@ -426,8 +426,7 @@ export default {
       this.$http.get(
         url
       ).then(function(res){
-        console.log(res);
-        this.which_student=JSON.parse(res.body).data; 
+        this.which_student=JSON.parse(res.body).usernameList; 
       });
     },
     //选择以何种方式查询分析数据----by class /  by name
@@ -463,7 +462,7 @@ export default {
       //---------change 事件冲突 ---------------
       //冗余,cas在以班级查询的同时为了保证学生栏实时更新,这里再写一次getStudentFromThisClass函数
       // = = !!!
-      var isMock=false;
+      var isMock=true;
       var url=null;
       if(isMock){
         url='./app/studentName.json';
@@ -474,7 +473,7 @@ export default {
         url
       ).then(function(res){
         // this.$set(that.classList,res.data);
-        this.which_student=JSON.parse(res.body).data;
+        this.which_student=JSON.parse(res.body).usernameList;
       });  
 
       //------------------------------
@@ -635,7 +634,7 @@ export default {
       urls
     ).then(function(res){
       // this.$set(that.classList,res.data);
-      that.which_class=res.data;
+      that.which_class=JSON.parse(res.body).classList;
     });
 
 
