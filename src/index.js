@@ -11,16 +11,19 @@ import './app/content.less';
 import 'element-ui/lib/theme-default/index.css';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
+import './app/question.less';
+import './app/QuestionList.less';
+import './app/shCore.css';
 Vue.use(VueRouter);
 Vue.use(VueResource);
 
 const router = new VueRouter({
   mode: 'history',
   routes: [
-  	{path: '/', component: Main,
-  	children:[
-  	  {path:'DataAnalysis',component:Content}
-  	]
+    {path: '/', component: Main,
+    children:[
+      {path:'DataAnalysis',component:Content}
+    ]
    }
   ]
 });

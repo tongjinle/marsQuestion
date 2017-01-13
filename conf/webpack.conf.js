@@ -21,6 +21,9 @@ module.exports = {
       //   loader: 'eslint-loader',
       //   enforce: 'pre'
       // },
+
+      { test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/, loader: "file-loader" },
+
       {
         test: /\.(css|less)$/,
         loaders: [
