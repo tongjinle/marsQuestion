@@ -21,6 +21,7 @@ import left from '../left.vue';
 import log from './log.vue';
 import Footer from '../Footer.vue';
 
+
 export default {
   name: 'login',
   components: {

@@ -4,7 +4,7 @@
     <div class="model" v-if="loading"><img src="images/Loading.gif"></div><!--模态层-->
     <header-component :msgfromheader="headFatherSay"></header-component>
     <main class="main">
-      <left-component></left-component>
+      <leftnav-component></leftnav-component>
 
       <div class="right">
         <right-component v-on:rightChildTellMe="ListenToright" v-on:isReLogin="isReLogin" 
@@ -33,13 +33,8 @@ export default {
   name: 'Main',
   components: {
     'header-component': Header,
-
     'leftnav-component':LeftNav,
-    
-
-
     'right-component': right,
-
     'footer-component': Footer
   },
   data(){

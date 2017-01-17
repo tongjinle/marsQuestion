@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import './log.less';
 export default {
   name: 'log',
 

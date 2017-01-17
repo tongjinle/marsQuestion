@@ -25,7 +25,7 @@
 </template>
 
 <script>
-
+  import './LeftNav.less';
   export default {
     name: 'LeftNav',
     methods:{

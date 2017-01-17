@@ -26,7 +26,7 @@
 </template>
 
 <script>
-
+import './changePassword.less';
 export default {
   name: 'change',
 

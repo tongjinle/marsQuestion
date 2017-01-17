@@ -37,6 +37,7 @@
 </template>
 
 <script>
+  import './Header.less';
   export default {
    name: 'Header',
 

@@ -1,36 +1,15 @@
 <template>
   
   <el-row :gutter="20" class='fullHeight'>
-  	<div class="el-col el-col-2 fullScreen">
-	    <el-menu default-active="2" class="el-menu-vertical-demo" theme="dark">
-	      <el-submenu index="1">
-	        <template slot="title">HTML</template>
-	        <el-submenu index="1-1">
-	          <template slot="title">选项4</template>
-	          <el-menu-item index="1-1-1">选项1</el-menu-item>
-	        </el-submenu>
-	        <el-submenu index="1-2">
-	          <template slot="title">选项4</template>
-	          <el-menu-item index="1-2-1">选项1</el-menu-item>
-	        </el-submenu>
-	        <el-submenu index="1-3">
-	          <template slot="title">选项4</template>
-	          <el-menu-item index="1-3-1">选项1</el-menu-item>
-	        </el-submenu>
-	      </el-submenu>
-	      <el-menu-item index="2">CSS</el-menu-item>
-	      <el-menu-item index="3">JAVASCRIPT</el-menu-item>
-	    </el-menu>
-  	</div>
-  	<el-col :span='12' class='question-wrap'>
+  	<el-col :span='14' class='question-wrap'>
   	   <el-card class='box-card'>
         <div slot="header" class="clearfix">
           <div>
-            <el-tag type='success' v-loading.fullscreen.lock="fullscreenLoading">{{level}}</el-tag><el-tag type='success'>参与人数:{{total}}</el-tag><el-tag type='success'>通过人数：{{success}}</el-tag><span>{{name}}</span>
+            <el-tag type='success' v-loading.fullscreen.lock="fullscreenLoading">{{level}}</el-tag><el-tag type='success'>参与人数:{{total}}</el-tag><el-tag type='success'>通过人数：{{success}}</el-tag><span class="quesName">{{name}}</span>
             <!--<el-button style="float: right;" type="primary" size='small'>收藏</el-button>-->
           </div>
         </div>
-        <div><el-tag><i class="el-icon-document"></i>描述</el-tag>{{descTitle}}</div>
+        <div><el-tag><i class="el-icon-document"></i>描述</el-tag><span class="quesTit">{{descTitle}}</span></div>
         <br>
         <el-card>
           <div>{{descTxt}}</div>
@@ -74,6 +53,16 @@
   
 </template>
 <script>
+import './question.less';
+//import './ace.js';
+//import './mode-javascript.js';
+//import './theme-twilight.js';
+//import './ext-language_tools.js';
+import './shCoreDefault.css';
+//import './shCore.js';
+//import './shBrushJScript.js';
+//import './shCore.css';
+
 export default {
   name: 'Title',
   data(){
@@ -142,7 +131,6 @@ export default {
     }
   },
   mounted(){
-        
         var editor = ace.edit("editor");
         var JavaScriptMode = ace.require("ace/mode/javascript").Mode;
         editor.session.setMode(new JavaScriptMode());
@@ -151,12 +139,10 @@ export default {
         enableBasicAutocompletion: true,
         enableLiveAutocompletion: true
         });
-
         this.getQuestion();
         setTimeout(function(){
           SyntaxHighlighter.highlight();
         },500);
-
   }
   
 };

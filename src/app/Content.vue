@@ -242,6 +242,7 @@
 </template>
 
 <script>
+import './Content.less';
 import echarts from 'echarts';
 export default {
   name: 'Content',

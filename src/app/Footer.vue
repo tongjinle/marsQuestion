@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import './footer.less';
 export default {
   name: 'Footer'
 };

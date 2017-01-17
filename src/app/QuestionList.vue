@@ -1,6 +1,6 @@
 <template>
-  <el-row :gutter="20" class='fullHeight'>
-  	<div class="el-col el-col-4 fullScreen">
+  <el-row :gutter="24" class='fullHeight'>
+  	<!-- <div class="el-col el-col-4 fullScreen">
 	    <el-menu default-active="2" class="el-menu-vertical-demo" theme="dark">
 	      <el-submenu index="1">
 	        <template slot="title">HTML</template>
@@ -20,19 +20,23 @@
 	      <el-menu-item index="2">CSS</el-menu-item>
 	      <el-menu-item index="3">JAVASCRIPT</el-menu-item>
 	    </el-menu>
-  	</div>
-  	<div class="el-col el-col-14 table-wrap">
+  	</div> -->
+  	<div class="el-col el-col-18 table-wrap">
   	<el-col>
     <el-card>
       <div class="chooseLevelWrap">
-        <el-radio-group fill='#20a0ff' v-model='chooseLevel' @change>
-          <el-radio-button label="难度1"></el-radio-button>
-          <el-radio-button label="难度2"></el-radio-button>
+        <el-radio-group fill='#20a0ff' v-model='chooseLevel' @change='getQuestionList("searchLevel")'>
+          <el-radio-button 
+          v-for='questionLevel in questionLevels'
+          :label="questionLevel.level"
+          >
+          </el-radio-button>
+          <!-- <el-radio-button label="难度2"></el-radio-button>
           <el-radio-button label="难度3"></el-radio-button>
           <el-radio-button label="难度4"></el-radio-button>
-          <el-radio-button label="难度5"></el-radio-button>
+          <el-radio-button label="难度5"></el-radio-button> -->
         </el-radio-group>
-        <el-checkbox v-model="isFilterPass" checked>是否显示已通过题目</el-checkbox>
+        <el-checkbox v-model="isFilterPass" checked @change='getQuestionList("searchLevel")'>已通过</el-checkbox>
       </div>
         
         <!--<el-select v-model="isPass" placeholder="请选择">
@@ -43,12 +47,14 @@
           </el-option>
         </el-select>-->
         <el-alert
-          v-if='chooseLevel==""'
-          title="选个难度吧~"
-          type="info"
-          :closable="false">
+          v-for='questionLevel in questionLevels'
+          v-if='chooseLevel==questionLevel.level'
+          :title='questionLevel.title'
+          :type="questionLevel.type"
+          :closable="false"
+          >
         </el-alert>
-        <el-alert
+        <!-- <el-alert
           v-if='chooseLevel=="难度1"'
           title="先来个简单的练练手~"
           type="success"
@@ -77,8 +83,8 @@
           title="离大牛不远了~"
           type="error"
           :closable="false">
-        </el-alert>
-        <el-button type='primary' style='margin-top:3px'>搜索</el-button>
+        </el-alert> -->
+        <!-- <el-button type='primary' style='margin-top:3px' @click='getQuestionList("searchLevel")'>搜索</el-button> -->
     </el-card>
 
     <el-card class='box-card table-card'>
@@ -170,6 +176,9 @@
 </template>
 
 <script>
+
+import './QuestionList.less';
+// import './app/shCore.css';
 export default {
   name: 'Title',
   data() {
@@ -179,10 +188,33 @@ export default {
         total:10,
         pageSizes:[5,10,15,20],
         tableData:null,
-        chooseLevel:'',
-        currentLevel:'',
+        chooseLevel:'一星',
+        //currentLevel:'',
         tableLoading:true,
-        isFilterPass:null
+        isFilterPass:null,
+        token:null,
+        currentFilterPass:null,
+        questionLevels:[{
+          level:'一星',
+          title:'先来个简单的练练手~',
+          type:'info',
+        },{
+          level:'二星',
+          title:'加点难度~',
+          type:'success'
+        },{
+          level:'三星',
+          title:'技术不错哦~',
+          type:'info'
+        },{
+          level:'四星',
+          title:'这个有点难咯~',
+          type:'warning'
+        },{
+          level:'五星',
+          title:'离大牛不远了~',
+          type:'error'
+        }]
         /*options: [{
           value: '全部',
           label: '全部'
@@ -204,32 +236,37 @@ export default {
             this.pageIndex = pageIndex;
       },
       getQuestionList:function(type){
+            console.log(this.chooseLevel);
+            console.log(this.isFilterPass);
+            let url='http://localhost:5050';
+            let _this=this;
             this.tableLoading=true;
-            var url='';
-            if(type=='searchLevel'){
-              url='/questionList?diff='+this.chooseLevel;
-            }else if(type=='pageChange'){
-              url='/questionList?diff='+this.currentLevel+'&pageIndex'+this.pageIndex;
-            }else if(type=='mounted'){
-              url='/questionList?mounted=true';
+            
+            if(type==='searchLevel'){
+              url+='/getQuesList?diff='+this.chooseLevel+'&token='+_this.token+'&isFilterPass='+_this.isFilterPass;
+            }else if(type==='pageChange'){
+              url+='/getQuesList?diff='+this.chooseLevel+'&pageIndex='+this.pageIndex+'&token='+_this.token+'&isFilterPass='+_this.isFilterPass;
+            }else if(type==='mounted'){
+              url+='/getQuesList?diff=level1&token='+_this.token+'&isFilterPass='+_this.isFilterPass+'&pageIndex='+this.pageIndex+'&pageSize='+this.pageSize;
             }
-            var _this=this;
-            var Mock=true;
+            let Mock=true;
             Mock?url='./questionList.json':'';
+            
+            
             this.$http.get(url).then(
               (response) => {
-              _this.tableData=eval(response.body);
+              _this.tableData=JSON.parse(response.body);
               _this.tableLoading=false;
-              _this.currentLevel=eval(response.body.diff);
+              //_this.currentLevel=JSON.parse(response.body.diff);
             })
       },
       goQuestion:function(questionName){
             let name=questionName;
-            router.go({name:'questionDetail',params:{name:name}});
+            router.go({name:'question',params:{name:name}});
       }
     },  
     mounted(){
-        this.getQuestionList();
+        this.getQuestionList('mounted');
     }
 
 };
