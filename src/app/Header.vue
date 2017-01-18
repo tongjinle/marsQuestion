@@ -30,17 +30,12 @@
     </div> 
 
   </div>
-   
-
   </header>
-  
 </template>
-
 <script>
   import './Header.less';
   export default {
    name: 'Header',
-
   data(){
     return{    
      seen:false,      
@@ -55,10 +50,6 @@
       this.msgfromheader.flag=false;
     }
   }
-
-
-
-
   }
 
 

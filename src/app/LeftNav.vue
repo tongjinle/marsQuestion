@@ -6,11 +6,11 @@
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-message"></i>Javascript测试题</template>
             <el-menu-item-group >
-              <el-menu-item v-for="diff in diffLevelList" :index="diff.diff+''" ><router-link :to="'/questionList/'+diff.diff">{{diff.level}}</router-link></el-menu-item>
+              <el-menu-item v-for="diff in diffLevelList" :index="diff.diff+''" ><router-link to="/questionList">{{diff.level}}</router-link></el-menu-item>
             </el-menu-item-group>
           </el-submenu>  
           <el-menu-item index="4" class="statistics">
-            <el-button type="primary" class="btn" @click="goQuesList(112)">
+            <el-button type="primary" class="btn" @click="jump2data">
               答题情况统计分析
             </el-button>
           </el-menu-item>
@@ -33,7 +33,7 @@
         this.$router.push('/Content');
       },
       goQuesList(diff){
-        this.$router.push(`/questionList/${diff}`);
+        this.$router.push('/questionList');
       },
       selectMenu(key,keyPath){
         console.log(key,keyPath);
