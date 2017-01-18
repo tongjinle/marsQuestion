@@ -1,26 +1,6 @@
 <template>
   <el-row :gutter="24" class='fullHeight'>
-  	<!-- <div class="el-col el-col-4 fullScreen">
-	    <el-menu default-active="2" class="el-menu-vertical-demo" theme="dark">
-	      <el-submenu index="1">
-	        <template slot="title">HTML</template>
-	        <el-submenu index="1-1">
-	          <template slot="title">选项4</template>
-	          <el-menu-item index="1-1-1">选项1</el-menu-item>
-	        </el-submenu>
-	        <el-submenu index="1-2">
-	          <template slot="title">选项4</template>
-	          <el-menu-item index="1-2-1">选项1</el-menu-item>
-	        </el-submenu>
-	        <el-submenu index="1-3">
-	          <template slot="title">选项4</template>
-	          <el-menu-item index="1-3-1">选项1</el-menu-item>
-	        </el-submenu>
-	      </el-submenu>
-	      <el-menu-item index="2">CSS</el-menu-item>
-	      <el-menu-item index="3">JAVASCRIPT</el-menu-item>
-	    </el-menu>
-  	</div> -->
+  	
   	<div class="el-col el-col-18 table-wrap">
   	<el-col>
     <el-card>
@@ -31,10 +11,7 @@
           :label="questionLevel.level"
           >
           </el-radio-button>
-          <!-- <el-radio-button label="难度2"></el-radio-button>
-          <el-radio-button label="难度3"></el-radio-button>
-          <el-radio-button label="难度4"></el-radio-button>
-          <el-radio-button label="难度5"></el-radio-button> -->
+          
         </el-radio-group>
         <el-checkbox v-model="isFilterPass" checked @change='getQuestionList("searchLevel")'>已通过</el-checkbox>
       </div>
@@ -178,6 +155,7 @@
 <script>
 
 import './QuestionList.less';
+import CONFIG from './config.js';
 // import './app/shCore.css';
 export default {
   name: 'Title',
@@ -194,38 +172,7 @@ export default {
         isFilterPass:null,
         token:null,
         currentFilterPass:null,
-        questionLevels:[{
-          level:'一星',
-          title:'先来个简单的练练手~',
-          type:'info',
-        },{
-          level:'二星',
-          title:'加点难度~',
-          type:'success'
-        },{
-          level:'三星',
-          title:'技术不错哦~',
-          type:'info'
-        },{
-          level:'四星',
-          title:'这个有点难咯~',
-          type:'warning'
-        },{
-          level:'五星',
-          title:'离大牛不远了~',
-          type:'error'
-        }]
-        /*options: [{
-          value: '全部',
-          label: '全部'
-        }, {
-          value: '已通过',
-          label: '已通过'
-        }, {
-          value: '未通过',
-          label: '未通过'
-        }],
-        isPass:''*/
+        questionLevels:CONFIG.diffLevelList
       }
     },
     methods: {
@@ -262,7 +209,7 @@ export default {
       },
       goQuestion:function(questionName){
             let name=questionName;
-            router.go({name:'question',params:{name:name}});
+            $router.go({name:'question',params:{name:name}});
       }
     },  
     mounted(){

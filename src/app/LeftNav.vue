@@ -6,11 +6,7 @@
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-message"></i>Javascript测试题</template>
             <el-menu-item-group>
-              <el-menu-item index="1-1">一星难度 (容易)</el-menu-item>
-              <el-menu-item index="1-2">二星难度</el-menu-item>
-              <el-menu-item index="1-3">三星难度</el-menu-item>
-              <el-menu-item index="1-4">四星难度</el-menu-item>
-              <el-menu-item index="1-5">五星难度 (困难)</el-menu-item>
+              <el-menu-item v-for="diff in diffLevelList" index="1-1" v-on:click="goQuesList">{{diff.level}}</el-menu-item>
             </el-menu-item-group>
           </el-submenu>  
           <el-menu-item index="4" class="statistics">
@@ -26,12 +22,21 @@
 
 <script>
   import './LeftNav.less';
+  import CONFIG from './config.js';
   export default {
     name: 'LeftNav',
+    data(){
+      return {diffLevelList:CONFIG.diffLevelList};
+    },
     methods:{
       jump2data:function(){
         this.$router.push('/Content');
+      },
+      goQuesList:function(diff){
+        console.log('11');
+        this.$router.push(`/questionList/${diff}`);
       }
+
     }
   };
 </script>
