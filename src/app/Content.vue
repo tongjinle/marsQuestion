@@ -9,8 +9,8 @@
               <el-row :gutter="20">
                 <el-col :span="12">
                   <el-select v-model="diff_from" placeholder="筛选难度等级">
-                    <el-option v-for="item in hard_level" :label="item.label" 
-                    :value="item.label"
+                    <el-option v-for="item in diffLevelList" :label="item.level" 
+                    :value="item.level"
                     >
                     </el-option>
                   </el-select>
@@ -19,8 +19,8 @@
                   <el-select v-model="diff_to" placeholder="筛选难度等级"
                    :disabled="diff_from==''"
                   >
-                    <el-option v-for="item in diff_range" :label="item.label" 
-                    :value="item.label">
+                    <el-option v-for="item in diffLevelList" :label="item.level" 
+                    :value="item.level">
                     </el-option>
                   </el-select>
                 </el-col> 
@@ -244,25 +244,12 @@
 <script>
 import './Content.less';
 import echarts from 'echarts';
+import CONFIG from './config.js';
 export default {
   name: 'Content',
   data() {
     return {
-      hard_level: [{                     //难度选择框--   目前写死了
-        label:' 1星---最易'
-      }, {
-        label:' 2星'
-      }, {
-        label:' 3星'
-      }, {
-        label:' 4星'
-      }, {
-        label:' 5星---最难'
-      }],
-      select_types:[
-        "班级",
-        "学生"
-      ],
+      diffLevelList:CONFIG.diffLevelList, //难度分级数据
       which_class:null,           //渲染class下拉菜单的class数据
       class_tags:[],              //选择好的待查询class数组
       which_student:null,         //渲染student下拉菜单的student数据
