@@ -213,6 +213,7 @@ export default {
       }
     },  
     mounted(){
+        console.log(2222);
         this.getQuestionList('mounted');
     }
 

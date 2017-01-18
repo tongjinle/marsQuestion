@@ -52,7 +52,7 @@ const router = new VueRouter({
           path: 'login',
           component: log
         },{
-          path:'questionList',
+          path:'questionList/:diff?',
           component:questionList
         },{
           path:'Content',
