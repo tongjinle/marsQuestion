@@ -30,7 +30,7 @@
     name: 'LeftNav',
     methods:{
       jump2data:function(){
-        this.$router.push('/DataAnalysis');
+        this.$router.push('/Content');
       }
     }
   };

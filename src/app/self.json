@@ -3,27 +3,27 @@
     "countList":[
         {
         "diff":1,
-        "right":1,
+        "right":9,
         "total":10
         },
         {
         "diff":2,
-        "right":2,
+        "right":8,
         "total":10
         },
         {
         "diff":3,
-        "right":3,
+        "right":7,
         "total":10
         },
         {
         "diff":4,
-        "right":4,
+        "right":8,
         "total":10
         },
         {
         "diff":5,
-        "right":5,
+        "right":6,
         "total":10
         }
     ],
