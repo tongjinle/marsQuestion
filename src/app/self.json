@@ -3,12 +3,12 @@
     "countList":[
         {
         "diff":1,
-        "right":9,
+        "right":8,
         "total":10
         },
         {
         "diff":2,
-        "right":8,
+        "right":7,
         "total":10
         },
         {
@@ -18,7 +18,7 @@
         },
         {
         "diff":4,
-        "right":8,
+        "right":6,
         "total":10
         },
         {
