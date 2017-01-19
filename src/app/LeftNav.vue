@@ -2,11 +2,11 @@
   <div id="left_part">
     <el-row>
       <el-col :span="24" id="col4full">
-        <el-menu default-active="1" class="el-menu-vertical-demo">
+        <el-menu default-active="1" class="el-menu-vertical-demo" @select='selectMenu'>
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-message"></i>Javascript测试题</template>
             <el-menu-item-group >
-              <el-menu-item v-for="diff in diffLevelList" :index="diff.diff+''" ><router-link to="/questionList">{{diff.level}}</router-link></el-menu-item>
+              <el-menu-item v-for="diff in diffLevelList" :index="diff.diff+''" >{{diff.level}}</el-menu-item>
             </el-menu-item-group>
           </el-submenu>  
           <el-menu-item index="4" class="statistics">
@@ -26,14 +26,18 @@
   export default {
     name: 'LeftNav',
     data(){
-      return {diffLevelList:CONFIG.diffLevelList};
+      return {
+        diffLevelList:CONFIG.diffLevelList,
+        diff:''
+      };
     },
     methods:{
       jump2data(){
         this.$router.push('/Content');
       },
       goQuesList(diff){
-        this.$router.push('/questionList');
+        console.log(this.diff);
+        this.$router.push({path:'/questionList',query:{diff:diff}});
       },
       selectMenu(key,keyPath){
         console.log(key,keyPath);
@@ -44,5 +48,6 @@
       }
 
     }
+
   };
 </script>

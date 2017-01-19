@@ -130,6 +130,7 @@ export default {
         questionLevels:CONFIG.diffLevelList
       }
     },
+    props:['isLogin'],
     methods: {
       sizeChange: function (pageSize) {
             this.pageSize = pageSize;
@@ -138,8 +139,8 @@ export default {
             this.pageIndex = pageIndex;
       },
       getQuestionList:function(type,diff){
-            console.log(this.chooseLevel);
-            console.log(this.isFilterPass);
+            //console.log(this.chooseLevel);
+            //console.log(this.isFilterPass);
             let url='http://localhost:5050';
             let _this=this;
             this.tableLoading=true;
@@ -164,11 +165,12 @@ export default {
       },
       goQuestion:function(questionName){
             let name=questionName;
-            this.$router.push('/question');
+            this.$router.push({path:'/question',query:{questionName}});
       }
     },  
     mounted(){
-        console.log(2222);
+        console.log(this.isLogin);
+        //console.log(this.$route.query.diff);
         this.getQuestionList('mounted');
     }
 

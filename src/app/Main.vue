@@ -41,7 +41,7 @@ export default {
     return{  
       headFatherSay:{
         logChildWords:" ",
-        flag:false,
+        flag:false
       } ,
       LogOut:false,
       loading:false   
