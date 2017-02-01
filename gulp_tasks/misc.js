@@ -9,9 +9,18 @@ const conf = require('../conf/gulp.conf');
 gulp.task('clean', clean);
 gulp.task('other', other);
 
-function clean() {
-  return del([conf.paths.dist, conf.paths.tmp]);
+console.log('init misc');
+function clean(cb) {
+  // return 
+  del([conf.paths.dist, conf.paths.tmp]);
+  cb();
 }
+
+
+gulp.task('c1', function(cb){
+    console.log('clean...');
+    cb();
+});
 
 function other() {
   const fileFilter = filter(file => file.stat.isFile());
