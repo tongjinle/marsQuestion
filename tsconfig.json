@@ -5,13 +5,7 @@
         "outDir": "dist",
         "target": "es6",
         "module": "commonjs",
-        "noEmitOnError": true
-    },
-    "include": [
-        "app.ts",
-        "*Route.ts",
-        "logic/**/*.ts",
-        "server/**/*.ts",
-        "test/**/*.ts"
-    ]
+        "noEmitOnError": true,
+        "moduleResolution":"node"
+    }
 }

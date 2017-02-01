@@ -1,4 +1,5 @@
 import * as express from "express";
+import * as session from 'express-session';
 
 
 let route = (app: express.Application) => {
@@ -7,6 +8,9 @@ let route = (app: express.Application) => {
         let {testname, testage } = req.query;
         console.log(testname, testage);
         // res.end(`myname is ${testname}`);
+        let sess = req['session'];
+        console.log(sess['ts']);
+        sess['ts'] = Date.now();
         res.json({ testname, testage });
     });
 
