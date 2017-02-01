@@ -1,4 +1,3 @@
-import Content from './app/Content.vue';
 
 Vue.use(ElementUI);
 
@@ -21,6 +20,7 @@ import log from './app/login/log.vue'; //引入login
 import change from './app/changePassword/change.vue'; //引入change
 import questionList from './app/questionList.vue'; //引入答题列表
 import question from './app/question.vue';//引入答题细节
+import Content from './app/Content.vue'; //引入数据分析页
 
 
 // import home from './app/home.vue'; //引入home
@@ -52,7 +52,7 @@ const router = new VueRouter({
           path: 'login',
           component: log
         },{
-          path:'questionList',
+          path:'questionList/:diff?',
           component:questionList
         },{
           path:'Content',

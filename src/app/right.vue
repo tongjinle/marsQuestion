@@ -1,7 +1,7 @@
 <template>
   <div>
    <router-view v-on:logChildTellMe="ListenToLog" v-on:isReLogin="isReLogin" 
-   v-bind:isrelogin="isLogin" v-on:sendToken="sendTokenMsg" v-bind:sendTokenMsg="tokenMsg" v-on:myLogin="myLogin"></router-view> 
+   v-bind:isrelogin="isLogin" v-on:sendToken="sendTokenMsg" v-bind:sendTokenMsg="tokenMsg" v-on:myLogin="myLogin" :isLogin="isLogin"></router-view> 
   </div>
 </template>
 
@@ -40,11 +40,13 @@ export default {
         this.tokenMsg=msg;
     },
     myLogin:function(msg){   //点击登录传来的
-        console.log(msg);
-          //说明点击了登录,告诉main
-        this.$emit("myLogin",msg); 
-        
-    }
+
+    	console.log(msg);
+    	  //说明点击了登录,告诉main
+		this.$emit("myLogin",msg); 
+    //-----------------登录成功的flag------------1.19 zh改-----
+    this.isLogin=true;
+     }
   }
 };
 

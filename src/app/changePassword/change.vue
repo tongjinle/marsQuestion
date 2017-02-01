@@ -82,7 +82,7 @@ export default {
       if(isMock){         //判断是不是模拟数据
         urlDict.login="./app/changePassword/editPwd.json";
       }else{
-        urlDict.login="http://10.21.117.213:5050/editPwd";
+        urlDict.login="http://localhost:5050/editPwd";
       }; 
 
       var data={
