@@ -20,6 +20,29 @@ let route = (app: express.Application) => {
         res.write('<div style="color:red;">hello world</div>');
         res.write('</body>');
         res.write('</html>');
+        res.end();
+    });
+
+    app.get('/test/async',(req:express.Request,res:express.Response)=>{
+       async function  myDelay (){
+            console.log(1,Date.now());
+            console.log(await  _delay(100,1000));
+            
+            console.log(2,Date.now());
+            console.log(await  _delay(200,1000));
+        } 
+
+        function _delay(val:number,t){
+            return new Promise((r) => setTimeout(r(val), t));
+        }
+
+        myDelay().then(()=>{
+            console.log(3,Date.now());
+            res.end('async end');
+
+        });
+
+
     });
 
     app.post('/login', (req: express.Request, res: express.Response) => {
