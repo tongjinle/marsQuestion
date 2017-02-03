@@ -2,7 +2,8 @@ import * as express from 'express';
 import * as bodyParser  from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
-import { userRoute } from './userRoute';
+import {userRoute} from './userRoute';
+import {testRoute} from './testRoute';
 
 let app = express();
 
@@ -26,15 +27,13 @@ app.all('*', (req: express.Request, res: express.Response, next) => {
     next();
 });
 
-
+testRoute(app);
 userRoute(app);
 
 
 
 
-
-
-var server = app.listen(5050, function() {
+var server = app.listen(9527, function() {
     var host = server.address().address;
     var port = server.address().port;
 

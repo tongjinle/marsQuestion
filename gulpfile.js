@@ -22,7 +22,7 @@ gulp.task('clean', function() {
 gulp.task('tsc', (cb) => {
 
     let tsProject = gulp_ts.createProject('tsconfig.json');
-    var tsResult = gulp.src(watch_files) // or tsProject.src() 
+    var tsResult = tsProject.src() // or tsProject.src() 
         .pipe(tsProject());
 
     return tsResult.js.pipe(gulp.dest('release'));
@@ -57,6 +57,7 @@ gulp.task('build', gulp.series('clean', 'tsc','babel'), (cb) => {
 });
 
 gulp.task('watch',cb=>{
+    console.log(new Date().toString());
     gulp.watch(watch_files,gulp.series('build'));
     cb();
 } );
