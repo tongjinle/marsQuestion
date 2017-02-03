@@ -24,7 +24,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use((req: express.Request, res: express.Response, next)=>{
     console.log('req.path',req.path);
-    if(req.path=='/login'){
+    if(req.path=='/stud/login'){
+        next();
+        return;
+    }
+
+    console.log(req.path,req.path.startsWith('/common'));
+    if(req.path.startsWith('/common')){
         next();
         return;
     }
@@ -34,6 +40,7 @@ app.use((req: express.Request, res: express.Response, next)=>{
     if(isVaildToken){
         next();
     }else{
+        console.log(token,isVaildToken,userCache['cache']);
         res.json({
             flag:false,
             err:'token is not valid'

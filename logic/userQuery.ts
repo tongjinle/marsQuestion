@@ -29,5 +29,15 @@ export default class UserQuery extends BasicQuery {
     editPwd(username:string,password:string):Promise<Mongoose.Document>{
         return this.mod.findOneAndUpdate({username},{$set:{password}}).exec();
     }
+
+    getClassList(){
+        return this.mod.distinct('class').exec();
+    }
+
+    getStudListByClass(klass:string){
+        return this.mod.find({class:klass})
+        .select('username')
+        .exec();
+    }
     
 }

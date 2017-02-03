@@ -10,7 +10,7 @@ let query: UserQuery = new UserQuery();
 
 let route = (app: express.Application) => {
     // login
-    app.post('/login', (req: express.Request, res: express.Response) => {
+    app.post('/stud/login', (req: express.Request, res: express.Response) => {
         let {username, password} = req['body'];
 
         query.findUser(username, password).then((data) => {
@@ -27,7 +27,7 @@ let route = (app: express.Application) => {
     });
 
     // edit pwd
-    app.post('/editPwd', (req: express.Request, res: express.Response) => {
+    app.post('/stud/editPwd', (req: express.Request, res: express.Response) => {
         let {token, lastPassword, currPassword} = req['body'];
         let username = userCache.getUsername(token);
 
@@ -39,6 +39,26 @@ let route = (app: express.Application) => {
 
 
     });
+
+    // getClassList
+    app.get('/common/classList', (req: express.Request, res: express.Response) => {
+        query.getClassList()
+            .then(data => {
+                res.json({ classList: data });
+            });
+    });
+
+    // getStudListByClass
+    app.get('/common/studListByClass', (req: express.Request, res: express.Response) => {
+        let klass = req.query.class;
+        query.getStudListByClass(klass)
+            .then(data => res.json({ usernameList: data }));
+    });
+
+
+    ////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////
 
 
     async function editPwd(username: string, lastPassword: string, currPassword: string) {
