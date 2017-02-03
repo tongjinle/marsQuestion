@@ -52,12 +52,12 @@ gulp.task('babel', cb => {
 // });
 
 gulp.task('build', gulp.series('clean', 'tsc','babel'), (cb) => {
+    console.log(new Date().toString());
     console.log('build done');
     cb();
 });
 
 gulp.task('watch',cb=>{
-    console.log(new Date().toString());
     gulp.watch(watch_files,gulp.series('build'));
     cb();
 } );

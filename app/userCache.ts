@@ -52,8 +52,9 @@ class UserCache {
 
 
     private genToken(): string {
-        let len = 8;
-        return Math.floor(Math.random() * Math.pow(36, len)).toString(36);
+        return '12345678';
+        // let len = 8;
+        // return Math.floor(Math.random() * Math.pow(36, len)).toString(36);
     }
 
     private findCache(token: string): CacheItem {

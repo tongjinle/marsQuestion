@@ -208,6 +208,7 @@ req:
 url:'/getQuesDetail'
 type:get
 params:{
+    token:string,
     name:string
 }
 

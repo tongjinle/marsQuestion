@@ -28,7 +28,8 @@ let route = (app: express.Application) => {
 
     // edit pwd
     app.post('/stud/editPwd', (req: express.Request, res: express.Response) => {
-        let {token, lastPassword, currPassword} = req['body'];
+        let { lastPassword, currPassword} = req['body'];
+        let token = req.headers['token'];
         let username = userCache.getUsername(token);
 
         editPwd(username, lastPassword, currPassword)
@@ -52,7 +53,7 @@ let route = (app: express.Application) => {
     app.get('/common/studListByClass', (req: express.Request, res: express.Response) => {
         let klass = req.query.class;
         query.getStudListByClass(klass)
-            .then(data => res.json({ usernameList: data }));
+            .then(data => res.json({ usernameList: data.map(d=>d['username']) }));
     });
 
 

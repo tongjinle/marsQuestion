@@ -4,6 +4,7 @@ import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
 import {userRoute} from './userRoute';
 import {testRoute} from './testRoute';
+import {trainRoute} from './trainRoute';
 import userCache from './userCache';
 
 let app = express();
@@ -29,13 +30,12 @@ app.use((req: express.Request, res: express.Response, next)=>{
         return;
     }
 
-    console.log(req.path,req.path.startsWith('/common'));
     if(req.path.startsWith('/common')){
         next();
         return;
     }
 
-    let {token} = req['body'];
+    let token = req.headers['token'];
     let isVaildToken = userCache.isValid(token);
     if(isVaildToken){
         next();
@@ -58,6 +58,7 @@ app.all('*', (req: express.Request, res: express.Response, next) => {
 
 testRoute(app);
 userRoute(app);
+trainRoute(app);
 
 
 
