@@ -1,47 +1,55 @@
 import * as express from "express";
 import * as session from 'express-session';
-import  UserCache from './userCache';
+import userCache from './userCache';
 import UserQuery from '../logic/userQuery';
 
 
 
-let cache:UserCache = new UserCache();
-let query :UserQuery  = new UserQuery();
+let cache = userCache;
+let query: UserQuery = new UserQuery();
 
 let route = (app: express.Application) => {
-
-    
-
-
-
+    // login
     app.post('/login', (req: express.Request, res: express.Response) => {
         let {username, password} = req['body'];
 
-        query.findUser(username,password).then((data)=>{
-            if(!data.length){
-                res.json({flag:false});
+        query.findUser(username, password).then((data) => {
+            if (!data.length) {
+                res.json({ flag: false });
                 return;
             }
             let token = cache.add(username);
             res.json({
-                flag:true,
+                flag: true,
                 token
             });
-            
-            
         });
-
-        // let username = req.query['username'];
-        // let from = parseInt(req.query['from']);
-        // let to = parseInt(req.query['to']);
-
-        // query.findHist(username, from, to).exec((err, data) => {
-        //     res.json({
-        //         flag: true,
-        //         data
-        //     });
-        // });
     });
+
+    // edit pwd
+    app.post('/editPwd', (req: express.Request, res: express.Response) => {
+        let {token, lastPassword, currPassword} = req['body'];
+        let username = userCache.getUsername(token);
+
+        editPwd(username, lastPassword, currPassword)
+            .then(data => {
+                res.json({ flag: data });
+            });
+
+
+
+    });
+
+
+    async function editPwd(username: string, lastPassword: string, currPassword: string) {
+        let rec = await query.findUser(username, lastPassword);
+        if (!rec.length) {
+            return new Promise(r => r(false));
+        }
+        await query.editPwd(username, currPassword);
+        return new Promise(r => r(true));
+    }
+
 };
 
 

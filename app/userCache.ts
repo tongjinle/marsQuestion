@@ -2,7 +2,7 @@ import * as _ from 'underscore';
 
 interface CacheItem { username: string, token: string, expire: number };
 
-export default class UserCache {
+class UserCache {
     private cache: CacheItem[];
     private CACHE_EXPIRE: number = 2 * 60 * 60 * 1000;
 
@@ -10,8 +10,8 @@ export default class UserCache {
     constructor() {
         this.cache = [];
     }
-    
-    add(username: string):string {
+
+    add(username: string): string {
         let token = this.genToken();
         let expire = this.genExpire();
         this.cache.push({ username, token, expire });
@@ -26,7 +26,7 @@ export default class UserCache {
     // 1 是否存在
     // 2 是否过期
     isValid(token: string): boolean {
-        let item = this.findToken(token);
+        let item = this.findCache(token);
 
         if (!item) { return false; }
 
@@ -35,27 +35,46 @@ export default class UserCache {
         return true;
     }
 
+    // 通过token寻找username
+    getUsername(token: string): string {
+        let item = this.findCache(token);
+        return item ? item.username : undefined;
+    }
+
     // 刷新token
     refresh(token: string): boolean {
-        if(!this.isValid(token)){return false}
+        if (!this.isValid(token)) { return false }
 
-        let item = this.findToken(token);
+        let item = this.findCache(token);
         item.expire = this.genExpire();
         return true;
     }
 
 
     private genToken(): string {
-        let len = 8 ;
-        return Math.floor(Math.random()*Math.pow(36,len)).toString(36);
+        let len = 8;
+        return Math.floor(Math.random() * Math.pow(36, len)).toString(36);
     }
 
-    private findToken(token: string): CacheItem{
-        return  _.find(this.cache, item => item.token == token);
+    private findCache(token: string): CacheItem {
+        return _.find(this.cache, item => item.token == token);
     }
 
-    private genExpire():number{
+    private genExpire(): number {
         return Date.now() + this.CACHE_EXPIRE;
     }
 
 }
+
+
+let userCache = new UserCache();
+export default userCache;
+
+
+
+
+
+
+
+
+

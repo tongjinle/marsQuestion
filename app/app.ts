@@ -4,20 +4,42 @@ import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
 import {userRoute} from './userRoute';
 import {testRoute} from './testRoute';
+import userCache from './userCache';
 
 let app = express();
 
-app.use(cookieParser());
-app.use(session({
-      secret: '12345',
-     name: 'testapp',   //这里的name值得是cookie的name，默认cookie的name是：connect.sid
-    cookie: {maxAge: 80000 },  //设置maxAge是80000ms，即80s后session和相应的cookie失效过期
-     resave: false,
-     saveUninitialized: true,
- }));
+// app.use(cookieParser());
+// app.use(session({
+//       secret: '12345',
+//      name: 'testapp',   //这里的name值得是cookie的name，默认cookie的name是：connect.sid
+//     cookie: {maxAge: 80000 },  //设置maxAge是80000ms，即80s后session和相应的cookie失效过期
+//      resave: false,
+//      saveUninitialized: true,
+//  }));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// check token
+
+app.use((req: express.Request, res: express.Response, next)=>{
+    console.log('req.path',req.path);
+    if(req.path=='/login'){
+        next();
+        return;
+    }
+
+    let {token} = req['body'];
+    let isVaildToken = userCache.isValid(token);
+    if(isVaildToken){
+        next();
+    }else{
+        res.json({
+            flag:false,
+            err:'token is not valid'
+        });
+    }
+});
 
 app.all('*', (req: express.Request, res: express.Response, next) => {
     // console.log('set header');
