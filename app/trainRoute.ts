@@ -2,6 +2,9 @@ import * as express from "express";
 import * as session from 'express-session';
 import userCache from './userCache';
 import TrainQuery from '../logic/trainQuery';
+import RunCode from '../logic/runCode';
+
+
 
 
 
@@ -49,7 +52,17 @@ let route = (app: express.Application) => {
     });
 
     // commitCode
-    app.get('/common/classList', (req: express.Request, res: express.Response) => {
+    app.post('/stud/commitCode', (req: express.Request, res: express.Response) => {
+        
+        let {name, code} = req['body'];
+        let token = req.headers['token'];
+        let username = userCache.getUsername(token);
+
+
+        commitCode(username, name, code)
+            .then(data => {
+                res.json(data);
+            })
 
     });
 
@@ -111,7 +124,7 @@ let route = (app: express.Application) => {
         let rightCountList = await query.getAnCount(quesnameList,true);
         let totalCountList = await query.getAnCount(quesnameList);
         // console.log(rightCountList,totalCountList);
-        
+
         data.forEach(d=>{
             let quesname = d['name'];
            
@@ -152,6 +165,30 @@ let route = (app: express.Application) => {
         };
         console.log(detail);
         return new Promise(r => r({ flag: true, detail }));
+    }
+
+
+    async function commitCode(username:string,quesname:string,code:string){
+        let ret = {isPass:false,speed:-1};
+        let ques = await query.getQuesDetail(quesname);
+        console.log({username,quesname,code,ques});
+        if(!ques){
+            return new Promise(r=>r(ret));
+
+        }
+        let checkerBody = ques['checker'];
+        ret = RunCode.run(code,checkerBody);
+        
+        let {isPass,speed} = ret;
+
+        let an = await query.getAnswerDetail(quesname,username);
+        if(!an || !an['isPass'] || an['speed']>speed){
+            await query.removeCode(username,quesname);
+            await query.commitCode(username,quesname,code,isPass,speed);
+            
+        }
+
+        return new Promise(r=>r(ret));
     }
 
 };
