@@ -76,6 +76,32 @@ var quesList = [{
     ].join('')
 }];
 
+var anList = [{
+    username:"1610-tongjinle",
+    quesname:"A+B",
+    code:[
+        'function fn(a,b){',
+        '   return a+b;',
+        '}'
+    ].join('\n'),
+    isPass:true,
+    speed:100
+},{
+    username:"1610-zhanheng",
+    quesname:"A+B",
+    code:[
+        'function fn(a,b){',
+        '   return 1;',
+        '}'
+    ].join('\n'),
+    isPass:false,
+    speed:-1
+}];
+
+
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
 
 function insertUser() {
     db.users.remove({});
@@ -89,9 +115,19 @@ function insertQues(){
     quesList.forEach(qu=>db.questions.insert(qu));
 }
 
+function insertAn(){
+    db.answers.remove({});
+
+    anList.forEach(n=>db.answers.insert(n));
+
+}
+
 
 insertUser();
 insertQues();
+insertAn();
+
+
 
 
 
