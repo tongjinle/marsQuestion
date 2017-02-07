@@ -1,6 +1,6 @@
 1 登录
 req:
-url:'/login'
+url:'/stud/login'
 type:post
 params:{
     username:string,
@@ -19,10 +19,12 @@ res:
 
 2 修改密码
 req:
-url:'/editPwd'
+url:'/stud/editPwd'
 type:post
+headers:{
+    token:string
+}
 params:{
-    token:string,
     // 旧密码
     lastPassword:string,
     // 新密码
@@ -37,8 +39,8 @@ res:
 ===================分割线======================
 3 统计
 req:
-url:'/analysis'
-type:get
+url:'admin/analysis'
+type:post
 params:{
     // 时间段
     timeRange:{
@@ -82,7 +84,7 @@ res:
 
 4 获取班级列表
 req:
-url:'/getClassList'
+url:'/common/getClassList'
 type:get
 params:null
 
@@ -95,7 +97,7 @@ res:
 
 5 获取学生列表(通过班级)
 req:
-url:'/getStudListByClass'
+url:'/common/getStudListByClass'
 type:'get'
 params:{
     class:string
@@ -106,45 +108,7 @@ res
     usernameList:string[]
 }
 
-===================分割线======================
 
-6 获取学生列表(通过模糊查找)
-req:
-url:'/getStudListByName'
-type:'get'
-params:{
-    username:string
-}
-
-res
-{
-    usernameList:string[]
-}
-
-===================分割线======================
-
-7 请求生成url短码
-req:
-url:'/genShortUrl'
-type:get
-params:同"统计"的params
-
-res:
-{
-    shortUrl:string
-}
-
-===================分割线======================
-
-8 通过url短码来
-req:
-url:'/analysisByShortUrl'
-type:get
-params:{
-    shortUrl:string
-}
-
-res:同"统计"的res
 
 ===================分割线======================
 
@@ -179,10 +143,12 @@ res:{
 ===================分割线======================
 10 获取题目列表
 req:
-url:'/getQuesList'
+url:'/stud/getQuesList'
 type:get
+headers:{
+    token:string
+}
 params:{
-    token:string,
     diff:number,
     isFilterPass:boolean,
     pageIndex:number,
@@ -205,10 +171,12 @@ res:
 
 11 获取题目细节
 req:
-url:'/getQuesDetail'
+url:'/stud/getQuesDetail'
 type:get
+headers:{
+    token:string
+}
 params:{
-    token:string,
     name:string
 }
 
@@ -231,10 +199,12 @@ res:
 
 12 提交代码
 req:
-url:'/commitCode'
+url:'/stud/commitCode'
 type:post
+headers:{
+    token:string
+}
 params:{
-    token:string,
     name:string,
     code:string
 }
@@ -251,7 +221,49 @@ res:{
 
 
 
+// 等待完成,等待完成,等待完成
+// 重要的话,说3遍
 
+===================分割线======================
+
+6 获取学生列表(通过模糊查找)
+req:
+url:'/getStudListByName'
+type:'get'
+params:{
+    username:string
+}
+
+res
+{
+    usernameList:string[]
+}
+
+
+===================分割线======================
+
+7 请求生成url短码
+req:
+url:'/genShortUrl'
+type:get
+params:同"统计"的params
+
+res:
+{
+    shortUrl:string
+}
+
+===================分割线======================
+
+8 通过url短码来
+req:
+url:'/analysisByShortUrl'
+type:get
+params:{
+    shortUrl:string
+}
+
+res:同"统计"的res
 
 
 

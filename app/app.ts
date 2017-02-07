@@ -5,6 +5,8 @@ import * as session from 'express-session';
 import {userRoute} from './userRoute';
 import {testRoute} from './testRoute';
 import {trainRoute} from './trainRoute';
+import {analysisRoute} from './analysisRoute';
+
 import userCache from './userCache';
 
 let app = express();
@@ -59,7 +61,7 @@ app.all('*', (req: express.Request, res: express.Response, next) => {
 testRoute(app);
 userRoute(app);
 trainRoute(app);
-
+analysisRoute(app);
 
 
 

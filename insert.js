@@ -80,6 +80,7 @@ var anList = [{
     classname:"1610",
     username:"1610-tongjinle",
     quesname:"A+B",
+    diff:0,
     code:[
         'function fn(a,b){',
         '   return a+b;',
@@ -92,6 +93,33 @@ var anList = [{
     classname:"1610",
     username:"1610-zhanheng",
     quesname:"A+B",
+    diff:0,
+    code:[
+        'function fn(a,b){',
+        '   return a+b;',
+        '}'
+    ].join('\n'),
+    isPass:true,
+    speed:10,
+    ts:new Date(2016,12,11).getTime()
+},{
+    classname:"1610",
+    username:"1610-lvzhe",
+    quesname:"n!",
+    diff:0,
+    code:[
+        'function fn(a,b){',
+        '   return 2;',
+        '}'
+    ].join('\n'),
+    isPass:false,
+    speed:-1,
+    ts:new Date(2016,12,12).getTime()
+},{
+    classname:"1609",
+    username:"1609-jack",
+    quesname:"n!",
+    diff:0,
     code:[
         'function fn(a,b){',
         '   return 1;',
@@ -99,9 +127,34 @@ var anList = [{
     ].join('\n'),
     isPass:false,
     speed:-1,
-    ts:new Date(2016,12,11).getTime()
+    ts:new Date(2016,12,13).getTime()
+},{
+    classname:"1609",
+    username:"1609-tom",
+    quesname:"A+B",
+    diff:0,
+    code:[
+        'function fn(a,b){',
+        '   return 1;',
+        '}'
+    ].join('\n'),
+    isPass:false,
+    speed:-1,
+    ts:new Date(2016,12,13).getTime()
+},{
+    classname:"1609",
+    username:"1609-tom",
+    quesname:"括号配对",
+    diff:0,
+    code:[
+        'function fn(a,b){',
+        '   return 1;',
+        '}'
+    ].join('\n'),
+    isPass:false,
+    speed:-1,
+    ts:new Date(2016,12,14).getTime()
 }];
-
 
 //////////////////////////////////////
 //////////////////////////////////////
