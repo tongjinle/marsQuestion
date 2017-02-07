@@ -16,6 +16,7 @@ let quesSche = new Schema({
 });
 
 let anSche = new Schema({
+    classname:String,
     username: String,
     quesname: String,
     code: String,
@@ -74,13 +75,12 @@ export default class TrainQuery extends BasicQuery {
         return query;
     }
 
-    removeCode(username:string,quesname:string){
-        return this.anMod.remove({username,quesname});
+    removeCode(classname:string,username:string,quesname:string){
+        return this.anMod.remove({classname,username,quesname});
     }
 
-    commitCode(username:string,quesname:string,code:string,isPass:boolean,speed:number){
-
-        let mod = new this.anMod({username,quesname,code,isPass,speed});
+    commitCode(classname:string, username:string,quesname:string,code:string,isPass:boolean,speed:number){
+        let mod = new this.anMod({classname,username,quesname,code,isPass,speed});
         return mod.save();
     }
 

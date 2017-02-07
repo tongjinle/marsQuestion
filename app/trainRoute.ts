@@ -2,6 +2,8 @@ import * as express from "express";
 import * as session from 'express-session';
 import userCache from './userCache';
 import TrainQuery from '../logic/trainQuery';
+import UserQuery from '../logic/userQuery';
+
 import RunCode from '../logic/runCode';
 
 
@@ -10,6 +12,7 @@ import RunCode from '../logic/runCode';
 
 let cache = userCache;
 let query: TrainQuery = new TrainQuery();
+let userQuery :UserQuery = new UserQuery();
 
 let route = (app: express.Application) => {
     // getQuesList
@@ -183,8 +186,10 @@ let route = (app: express.Application) => {
 
         let an = await query.getAnswerDetail(quesname,username);
         if(!an || !an['isPass'] || an['speed']>speed){
-            await query.removeCode(username,quesname);
-            await query.commitCode(username,quesname,code,isPass,speed);
+            let user = await userQuery.findUser(username);
+            let classname = user['classname'];
+            await query.removeCode(classname,username,quesname);
+            await query.commitCode(classname,username,quesname,code,isPass,speed);
             
         }
 

@@ -13,8 +13,8 @@ let route = (app: express.Application) => {
     app.post('/stud/login', (req: express.Request, res: express.Response) => {
         let {username, password} = req['body'];
 
-        query.findUser(username, password).then((data) => {
-            if (!data.length) {
+        query.findUser(username).then((data) => {
+            if (!data || data['password']!=password) {
                 res.json({ flag: false });
                 return;
             }
@@ -63,8 +63,8 @@ let route = (app: express.Application) => {
 
 
     async function editPwd(username: string, lastPassword: string, currPassword: string) {
-        let rec = await query.findUser(username, lastPassword);
-        if (!rec.length) {
+        let us = await query.findUser(username);
+        if (!us ||us['password']!=lastPassword) {
             return new Promise(r => r(false));
         }
         await query.editPwd(username, currPassword);

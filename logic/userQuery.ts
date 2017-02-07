@@ -22,8 +22,8 @@ export default class UserQuery extends BasicQuery {
         this.mod = this.db.model('user',userSche);
     }
 
-    findUser(username:string,password:string):Promise<Mongoose.Document[]>{
-        return this.mod.find({username,password}).exec();
+    findUser(username:string):Promise<Mongoose.Document>{
+        return this.mod.findOne({username}).exec();
     }
 
     editPwd(username:string,password:string):Promise<Mongoose.Document>{

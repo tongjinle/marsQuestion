@@ -1,33 +1,33 @@
 var userList = [{
-        "class": "1610",
+        "classname": "1610",
         "username": "1610-tongjinle",
         "password": "falcon"
     }, {
-        "class": "1610",
+        "classname": "1610",
         "username": "1610-zhanheng",
         "password": "falcon"
     }, {
-        "class": "1610",
+        "classname": "1610",
         "username": "1610-caoqin",
         "password": "falcon"
     }, {
-        "class": "1610",
+        "classname": "1610",
         "username": "1610-lvzhe",
         "password": "falcon"
     }, {
-        "class": "1609",
+        "classname": "1609",
         "username": "1609-jack",
         "password": "falcon"
     }, {
-        "class": "1609",
+        "classname": "1609",
         "username": "1609-tom",
         "password": "falcon"
     }, {
-        "class": "1609",
+        "classname": "1609",
         "username": "1609-lucy",
         "password": "falcon"
     }, {
-        "class": "1609",
+        "classname": "1609",
         "username": "1609-vivian",
         "password": "falcon"
     }
@@ -77,6 +77,7 @@ var quesList = [{
 }];
 
 var anList = [{
+    classname:"1610",
     username:"1610-tongjinle",
     quesname:"A+B",
     code:[
@@ -85,8 +86,10 @@ var anList = [{
         '}'
     ].join('\n'),
     isPass:true,
-    speed:100
+    speed:100,
+    ts:new Date(2016,12,10).getTime()
 },{
+    classname:"1610",
     username:"1610-zhanheng",
     quesname:"A+B",
     code:[
@@ -95,7 +98,8 @@ var anList = [{
         '}'
     ].join('\n'),
     isPass:false,
-    speed:-1
+    speed:-1,
+    ts:new Date(2016,12,11).getTime()
 }];
 
 
