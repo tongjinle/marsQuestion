@@ -57,10 +57,10 @@ export default class AnalysisQuery extends BasicQuery {
     }
 
     // 获取所有的问题
-    count(timeRange: { begin: number, end: number }, diffRange: { begin: number, end: number }, type: number, keyList: string[],isPass:boolean=false) {
+    count(timeRange: { begin: number, end: number }, diffRange: { begin: number, end: number }, type: number, keyList: string[], isPass: boolean = false) {
         let pipe = [];
         let keyname = ['username', 'classname'][type];
-        let match:any = {
+        let match: any = {
             ts: { $gte: timeRange.begin, $lte: timeRange.end },
             diff: { $gte: diffRange.begin, $lte: diffRange.end },
             // 0 -> stud
@@ -69,7 +69,7 @@ export default class AnalysisQuery extends BasicQuery {
         };
 
         // isPass是否是要求"答题正确"的记录
-        if(isPass){
+        if (isPass) {
             match['isPass'] = true;
         }
 
@@ -77,16 +77,16 @@ export default class AnalysisQuery extends BasicQuery {
             $match: match
         });
         pipe.push({
-            $group:{
-                _id:{key:`$${keyname}`,diff:'$diff'},
-                count:{$sum:1}
+            $group: {
+                _id: { key: `$${keyname}`, diff: '$diff' },
+                count: { $sum: 1 }
             }
         });
 
-        console.log({pipe});
+        console.log({ pipe });
 
         let query = this.anMod.aggregate(pipe);
-     
+
         return query;
 
 
@@ -122,7 +122,62 @@ res:{
 }
     */
 
+    countRightCommit(classname: string, username: string) {
+        return this.countCommit(classname,username,true);
+    }
 
+    countTotalCommit(classname:string,username:string){
+        return this.countCommit(classname,username);
+    }
+
+
+    private countCommit(classname:string,username:string,isPass:boolean=false){
+        let pipe = [];
+        pipe.push({
+            $match:{classname,username}
+        });
+        if(isPass){
+            pipe.push({
+                $match:{isPass:true}
+            });
+        }
+
+        pipe.push({
+            $group:{
+                _id:{diff:'$diff'},
+                count:{$sum:1}
+            }
+        });
+
+        return this.anMod.aggregate(pipe);
+    }
+
+    countWorldRank(){
+        return this.countRank();
+    }
+
+
+    countClassRank(classname){
+        return this.countRank({classname});
+    }
+
+    // 
+    private countRank(condi?) {
+        let pipe = [];
+        pipe.push({ $match: { isPass: true } });
+        condi && pipe.push({ $match: condi });
+        pipe.push({
+            $group: {
+                _id: { username: `$username`, diff: `$diff` },
+                count: { $sum: { $multiply: [3, { $add: ['$diff', 1] }] } }
+            }
+        });
+        // pipe.push({
+        //     $sort:'count'
+        // });
+        return this.anMod.aggregate(pipe).sort('-count');
+
+    }
 
 
 }

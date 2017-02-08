@@ -145,14 +145,14 @@ var anList = [{
     classname:"1609",
     username:"1609-tom",
     quesname:"括号配对",
-    diff:0,
+    diff:3,
     code:[
         'function fn(a,b){',
         '   return 1;',
         '}'
     ].join('\n'),
-    isPass:false,
-    speed:-1,
+    isPass:true,
+    speed:110,
     ts:new Date(2016,12,14).getTime()
 }];
 

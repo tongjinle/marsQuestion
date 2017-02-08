@@ -39,5 +39,20 @@ export default class UserQuery extends BasicQuery {
         .select('username')
         .exec();
     }
+
+    // 获取人数
+    getUserCount(classname?:string){
+        let opts = classname? {classname}:{};
+        return this.mod.find(opts).count().exec();
+    }
+
+
+
+
+
+
+
+
+
     
 }
