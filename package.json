@@ -28,6 +28,7 @@
     "eslint-plugin-babel": "^3.1.0",
     "eslint-plugin-html": "^1.5.2",
     "extract-text-webpack-plugin": "^2.0.0-beta.3",
+    "file-loader": "^0.10.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-filter": "^4.0.0",
     "gulp-hub": "^0.8.0",
@@ -51,7 +52,7 @@
     "vue-html-loader": "^1.2.3",
     "vue-loader": "^9.3.2",
     "vue-resource": "^0.9.3",
-    "webpack": "2.1.0-beta.27",
+    "webpack": "^2.2.1",
     "webpack-fail-plugin": "^1.0.5"
   },
   "scripts": {
