@@ -83,94 +83,105 @@ export default {
 
      //************************************************************************************
     ready: function() {  //登录
+// Vue.http.headers.common['token'] = tokenVal;
+      let url = 'http://localhost:9527/stud/login';
+      let data = {username:'1610-tongjinle',password:'falcon'};
+      let success = (data)=>{
+        console.log('******')
+        console.log(data);
+      };
+      this.$http.post(url,data)
+      .then(success);
+      ;
+      return;
 
-      //点击登录的时候加模态层 (传值给main.vue)
-      this.$emit("myLogin",this.isShowModel);
+//       //点击登录的时候加模态层 (传值给main.vue)
+//       this.$emit("myLogin",this.isShowModel);
 
 
-       var urlDict={};
-        var isMock=false;
-        if(isMock){         //判断是不是模拟数据
-          urlDict.login="./app/login/login.json";
-        }else{
-          urlDict.login="http://localhost:5050/login";
-        };
+//        var urlDict={};
+//         var isMock=false;
+//         if(isMock){         //判断是不是模拟数据
+//           urlDict.login="./app/login/login.json";
+//         }else{
+//           urlDict.login="http://localhost:5050/login";
+//         };
 
-        var data={
-          username:this.username,                  
-          password:this.password      
-        };
+//         var data={
+//           username:this.username,                  
+//           password:this.password      
+//         };
       
-      if(this.usernameFlag==false&&this.passwordFlag==false&&this.username!=""&&this.password!=""){    
-        this.$http.post(urlDict.login,data).then((response)=> {
+//       if(this.usernameFlag==false&&this.passwordFlag==false&&this.username!=""&&this.password!=""){    
+//         this.$http.post(urlDict.login,data).then((response)=> {
 
-        console.log(response.data.flag);
-        console.log(response.data.token);
+//         console.log(response.data.flag);
+//         console.log(response.data.token);
 
-        var token=response.data.token;   //要传给change.vue
-        //先传给父级(right.vue)
-        this.$emit("sendToken",token);
+//         var token=response.data.token;   //要传给change.vue
+//         //先传给父级(right.vue)
+//         this.$emit("sendToken",token);
 
-        if(response.data.flag){     //如果返回true,登录成功
-          //隐藏模态层
-          this.isShowModel=false;
-          this.$emit("myLogin",this.isShowModel);
+//         if(response.data.flag){     //如果返回true,登录成功
+//           //隐藏模态层
+//           this.isShowModel=false;
+//           this.$emit("myLogin",this.isShowModel);
 
-        // 判断是否勾选了保存密码
-        // console.log(this.remember)
-        if(this.remember){
-          localStorage.setItem('username',this.username);          
-          localStorage.setItem('password',this.password);          
-          // setCookie('userName', this.username, 14);
-          // setCookie('passWord', this.password, 14);
-        }else{
-          localStorage.clear('userName');
-          localStorage.clear('passWord');
-           // removeCookie("userName");
-           // removeCookie("passWord");
-           this.username='';
-           this.password='';
-        }
-
-
-//------------------------------------------------------------
-        //跳转到首页 把用户名传出去
-        this.$router.push({path:'/'});
-        this.$emit("logChildTellMe",this.username);  //把用户名传给父级,暂时先跳到修改密码页面
-//--------------------------------------------------------------
-         //设置cookie
-        function setCookie(name, value, iDay){
-            var oDate = new Date();
-            oDate.setDate( oDate.getDate() + iDay );
-            document.cookie = name+'='+value+';expires=' + oDate;
-        };
+//         // 判断是否勾选了保存密码
+//         // console.log(this.remember)
+//         if(this.remember){
+//           localStorage.setItem('username',this.username);          
+//           localStorage.setItem('password',this.password);          
+//           // setCookie('userName', this.username, 14);
+//           // setCookie('passWord', this.password, 14);
+//         }else{
+//           localStorage.clear('userName');
+//           localStorage.clear('passWord');
+//            // removeCookie("userName");
+//            // removeCookie("passWord");
+//            this.username='';
+//            this.password='';
+//         }
 
 
-        //封装移除cookie的函数
-        function removeCookie(key){
-            setCookie(key,'',-1);
-        };
-
-        //读取cookie
-        function getCookie(name){
-            var array1 = document.cookie.split("; ");
-            for(var i = 0; i < array1.length; i++ ){
-                var array2 = array1[i].split('=');
-                if(array2[0] == name){
-                    return array2[1];
-                }
-            };
-            return '';
-        };
+// //------------------------------------------------------------
+//         //跳转到首页 把用户名传出去
+//         this.$router.push({path:'/'});
+//         this.$emit("logChildTellMe",this.username);  //把用户名传给父级,暂时先跳到修改密码页面
+// //--------------------------------------------------------------
+//          //设置cookie
+//         function setCookie(name, value, iDay){
+//             var oDate = new Date();
+//             oDate.setDate( oDate.getDate() + iDay );
+//             document.cookie = name+'='+value+';expires=' + oDate;
+//         };
 
 
+//         //封装移除cookie的函数
+//         function removeCookie(key){
+//             setCookie(key,'',-1);
+//         };
+
+//         //读取cookie
+//         function getCookie(name){
+//             var array1 = document.cookie.split("; ");
+//             for(var i = 0; i < array1.length; i++ ){
+//                 var array2 = array1[i].split('=');
+//                 if(array2[0] == name){
+//                     return array2[1];
+//                 }
+//             };
+//             return '';
+//         };
 
 
 
 
-          }
-        })
- }
+
+
+//           }
+//         })
+//  }
        /***************/ 
 
         
