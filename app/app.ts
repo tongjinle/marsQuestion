@@ -1,11 +1,11 @@
 import * as express from 'express';
-import * as bodyParser  from 'body-parser';
+import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
-import {userRoute} from './userRoute';
-import {testRoute} from './testRoute';
-import {trainRoute} from './trainRoute';
-import {analysisRoute} from './analysisRoute';
+import { userRoute } from './userRoute';
+import { testRoute } from './testRoute';
+import { trainRoute } from './trainRoute';
+import { analysisRoute } from './analysisRoute';
 
 import userCache from './userCache';
 
@@ -25,27 +25,33 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // check token
 
-app.use((req: express.Request, res: express.Response, next)=>{
-    console.log('req.path',req.path);
-    if(req.path=='/stud/login'){
+app.use((req: express.Request, res: express.Response, next) => {
+    console.log('req.path', req.path);
+    if (req.method == 'OPTIONS') {
+        console.log('options...')
+        next();
+
+        return;
+    }
+    if (req.path == '/stud/login') {
         next();
         return;
     }
 
-    if(req.path.startsWith('/common')){
+    if (req.path.startsWith('/common')) {
         next();
         return;
     }
 
     let token = req.headers['token'];
     let isVaildToken = userCache.isValid(token);
-    if(isVaildToken){
+    if (isVaildToken) {
         next();
-    }else{
-        console.log(token,isVaildToken,userCache['cache']);
+    } else {
+        console.log(token, isVaildToken, userCache['cache']);
         res.json({
-            flag:false,
-            err:'token is not valid'
+            flag: false,
+            err: 'token is not valid'
         });
     }
 });
@@ -54,7 +60,7 @@ app.all('*', (req: express.Request, res: express.Response, next) => {
     // console.log('set header');
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Headers', 'token,Origin, X-Requested-With, Content-Type, Accept');
     next();
 });
 
