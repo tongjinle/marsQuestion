@@ -91,8 +91,27 @@ export default {
         console.log(data);
       };
       this.$http.post(url,data)
-      .then(success);
+      .then((data)=>{
+        success(data);
+
+        getQuesList();
+
+      });
       ;
+
+      let getQuesList=()=>{
+        let url = 'http://localhost:9527/stud/quesList?diff=0&isFilterPass=0&pageSize=8&pageIndex=0';
+        this.$http({
+          url,
+          headers:{token:'12345678'},
+          
+        }).then((data)=>{
+          console.log('$$$$$');
+          console.log(data);
+        });
+
+      };
+
       return;
 
 //       //点击登录的时候加模态层 (传值给main.vue)
